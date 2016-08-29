@@ -8,21 +8,11 @@
 """
 from system.core.controller import *
 
-class Welcome(Controller):
+class Crimes(Controller):
     def __init__(self, action):
-        super(Welcome, self).__init__(action)
-        """
-        This is an example of loading a model.
-        Every controller has access to the load_model method.
-        """
-        self.load_model('WelcomeModel')
+        super(Crimes, self).__init__(action)
+        self.load_model('Crime')
         self.db = self._app.db
-
-        """
-        
-        This is an example of a controller method that will load a view for the client 
-
-        """
    
     def index(self):
         """
@@ -36,5 +26,6 @@ class Welcome(Controller):
         
         # return self.load_view('index.html', messages=messages, user=user)
         """
-        return self.load_view('index.html')
+        crimes=self.models['Crime'].get_crimes()
+        return self.load_view('index.html',crimes=crimes)
 
