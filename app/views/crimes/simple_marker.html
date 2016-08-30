@@ -3,7 +3,8 @@
   <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-    <title>Simple markers</title>
+    <title>Crime Map with Clusters</title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/js-marker-clusterer/1.0.0/markerclusterer_compiled.js'></script>
     <style>
       html, body {
         height: 100%;
@@ -28,6 +29,7 @@
     'D':'https://maps.google.com/mapfiles/kml/paddle/D.png'}
 
      var markers = []
+     var markers2= []
     {% for crime in crimes: %}
       {% if crime.category == 'VEHICLE THEFT': %}
         markers.push({position:{lat: {{crime.location.coordinates[1]}},lng: {{crime.location.coordinates[0]}}},
@@ -71,18 +73,26 @@
           center: center
         });
 
-		for (var i =0; i < markers.length;i++){
-			createNewMarker(markers[i],map);
-			console.log(markers[i])
-		}
-
-		google.maps.event.addListener(marker, 'click', function() {
-          console.log("click it")
+      // markers2 is an array of the actual markers
+  		for (var i =0; i < markers.length;i++){
+        markers2.push(createNewMarker(markers[i],map));
+  		}
+      //
+      var markercluster = new MarkerClusterer(map, markers2, {
+    imagePath: 'https://cdn.rawgit.com/googlemaps/js-marker-clusterer/gh-pages/images/m'
         });
       }
+
     </script>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC463uEVAexz7AMHPofPGS7D3gKS9IITs8&callback=initMap">
     </script>
+    <span>Vehicle Theft</span><img src="https://maps.google.com/mapfiles/kml/paddle/T.png"><br>
+    <span>Assault</span><img src="https://maps.google.com/mapfiles/kml/paddle/A.png"><br>
+    <span>Vandalism</span><img src="https://maps.google.com/mapfiles/kml/paddle/V.png"><br>
+    <span>Kidnapping</span><img src="https://maps.google.com/mapfiles/kml/paddle/K.png"><br>
+    <span>Sex Crime</span><img src="https://maps.google.com/mapfiles/kml/paddle/S.png"><br>
+    <span>DUI</span><img src="https://maps.google.com/mapfiles/kml/paddle/D.png"><br>
+
   </body>
 </html>
