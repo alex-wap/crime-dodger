@@ -17,6 +17,10 @@ from system.core.router import routes
     The automatically generated routes respond to all of the http verbs (GET, POST, PUT, PATCH, DELETE)
 """
 routes['default_controller'] = 'Welcome'
+routes['/crimes'] = 'Crimes#index'
+routes['/jquery'] = 'Crimes#jquery'
+routes['/marker'] = 'Crimes#marker'
+# routes['/jsondata'] = 'Crimes#createMapData'
 """
     You can add routes and specify their handlers as follows:
 
