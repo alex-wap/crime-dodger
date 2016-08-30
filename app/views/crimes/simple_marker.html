@@ -19,20 +19,46 @@
     <div id="map"></div>
     <script>
 
-    	// var markers= [{lat: 37.764731, lng: -122.493328},
-     //    {lat:37.781446,lng:-122.417147},
-     //    {lat:37.779585,lng:-122.41677}];
+    // set new icons
+    var icon = {'T':'https://maps.google.com/mapfiles/kml/paddle/T.png',
+    'A':'https://maps.google.com/mapfiles/kml/paddle/A.png',
+    'V':'https://maps.google.com/mapfiles/kml/paddle/V.png',
+    'K':'https://maps.google.com/mapfiles/kml/paddle/K.png',
+    'S':'https://maps.google.com/mapfiles/kml/paddle/S.png',
+    'D':'https://maps.google.com/mapfiles/kml/paddle/D.png'}
 
      var markers = []
-     {% for crime in crimes: %}
-      markers.push({lat: {{crime.location.coordinates[1]}},lng: {{crime.location.coordinates[0]}}})
-     {% endfor %}
+    {% for crime in crimes: %}
+      {% if crime.category == 'VEHICLE THEFT': %}
+        markers.push({position:{lat: {{crime.location.coordinates[1]}},lng: {{crime.location.coordinates[0]}}},
+        icon: icon['T']})
+      {% elif crime.category == 'ASSAULT': %}
+        markers.push({position:{lat: {{crime.location.coordinates[1]}},lng: {{crime.location.coordinates[0]}}},
+        icon: icon['A']})
+      {% elif crime.category == 'VANDALISM': %}
+        markers.push({position:{lat: {{crime.location.coordinates[1]}},lng: {{crime.location.coordinates[0]}}},
+        icon: icon['V']})
+      {% elif crime.category == 'KIDNAPPING': %}
+        markers.push({position:{lat: {{crime.location.coordinates[1]}},lng: {{crime.location.coordinates[0]}}},
+        icon: icon['K']})
+      {% elif crime.category == 'SEX OFFENSES, FORCIBLE': %}
+        markers.push({position:{lat: {{crime.location.coordinates[1]}},lng: {{crime.location.coordinates[0]}}},
+        icon: icon['S']})
+      {% else: %}
+        markers.push({position:{lat: {{crime.location.coordinates[1]}},lng: {{crime.location.coordinates[0]}}},
+        icon: icon['D']})
+      {% endif %}
+    {% endfor %}
+
+     // To add the marker to the map, call setMap();
+     // marker.setMap(map);
+
 
     	function createNewMarker(obj,map){
     		var marker = new google.maps.Marker({
-			position: obj,
+			position: obj.position,
 			map: map,
-			title: 'Hello World!'
+			icon: obj.icon
 			});
 			console.log(obj);
 			return marker;
