@@ -1,0 +1,26 @@
+<html>
+<head>
+  <title>Registraton with encryption</title>
+</head>
+<body>
+  <h1>Registration Form</h1>
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for message in messages %}
+        <p>{{message}}</p>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+  <form action='/users/create' method='POST'>
+    <div>
+    First Name:<input type="text" name="name" placeholder="Name:">
+    </div>
+    Password:<input type="text" name="password" placeholder="Password:">
+    <div>
+    Confirm Password:<input type="text" name="pw_confirmation" placeholder="Confirm Password">
+    </div>
+    <input type="submit" value="Submit">
+    <hr>
+  </form>
+</body>
+</html>
