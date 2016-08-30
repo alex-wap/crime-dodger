@@ -20,6 +20,7 @@ routes['default_controller'] = 'Welcome'
 routes['/crimes'] = 'Crimes#index'
 routes['/jquery'] = 'Crimes#jquery'
 routes['/marker'] = 'Crimes#marker'
+routes['/marker2'] = 'Crimes#marker2'
 # routes['/jsondata'] = 'Crimes#createMapData'
 """
     You can add routes and specify their handlers as follows:
