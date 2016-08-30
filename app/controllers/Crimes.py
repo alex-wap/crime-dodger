@@ -27,5 +27,5 @@ class Crimes(Controller):
         # return self.load_view('index.html', messages=messages, user=user)
         """
         crimes=self.models['Crime'].get_crimes()
-        return self.load_view('index.html',crimes=crimes)
+        return self.load_view('crimes/index.html',crimes=crimes)
 
