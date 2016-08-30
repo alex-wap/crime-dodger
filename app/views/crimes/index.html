@@ -3,7 +3,7 @@
     <link rel="stylesheet" href="/static/css/styles.css" type="text/css">
   </head>
   <body>
-    {#crimes#}
+    {{crimes[0]}}
     {% for crime in crimes: %}
     <div class="crime">
     	<h2>{{crime.category}}</h2>

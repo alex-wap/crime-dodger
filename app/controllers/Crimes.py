@@ -29,3 +29,13 @@ class Crimes(Controller):
         crimes=self.models['Crime'].get_crimes()
         return self.load_view('crimes/index.html',crimes=crimes)
 
+    # def createMapData(self):
+    #     crimes=self.models['Crime'].get_crimes()
+    #     return jsonify(crimes)
+
+    def jquery(self):
+        return self.load_view('crimes/jquery_test.html')
+
+    def marker(self):
+        crimes=self.models['Crime'].get_crimes()
+        return self.load_view('crimes/simple_marker.html',crimes=crimes)

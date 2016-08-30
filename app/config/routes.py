@@ -18,7 +18,9 @@ from system.core.router import routes
 """
 routes['default_controller'] = 'Welcome'
 routes['/crimes'] = 'Crimes#index'
-
+routes['/jquery'] = 'Crimes#jquery'
+routes['/marker'] = 'Crimes#marker'
+# routes['/jsondata'] = 'Crimes#createMapData'
 """
     You can add routes and specify their handlers as follows:
 
