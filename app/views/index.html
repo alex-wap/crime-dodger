@@ -13,12 +13,42 @@
       #map {
         height: 100%;
       }
+      #top_header {
+        height: 240px;
+        width: 960px;
+        margin-left: 100px;
+        margin-top: 20px;
+      }
+      #right_side {
+        margin-left: 710px;
+      }
+      #center {
+        margin-left: 150px;
+        margin-top: 20px;
+      }
+      textarea {
+        font-size: 16px;
+      }
     </style>
 </head>
 <body>
-  <!-- ATTN TEAM: this map will require a little tweaking when trying to put inside bootstrap
-      as I had difficulty making it display when within a different div.
-      refer to this link possibly: http://bootstrapious.com/p/google-maps-and-bootstrap-tutorial-->
+<div id="top_header">
+  <form>
+    <input type="submit" action='/users/login' value="Login">
+    <input type="submit" action='/users/registration' value="Registration">
+    <input id="right_side" type="submit" action='/user/profile' value="Profile">
+    <a href="/users/signout">Sign out</a>
+   </form> 
+   <div id="center">
+     <textarea rows="7" cols="90">CrimeDodger is a suitably-named navigation app that helps keep you safe by steering you clear of high crime areas while it is occurring. When you are out for the day, visiting a friend, on your way to work or rolling into an unfamiliar area late at night, the last thing you want to do is to place yourself into an uncomfortable situation.  This app is designed to combine crime data from government agencies with reports to provide a real-time guide to which areas of a city should be avoided.” It’s kind of like Waze but instead of getting alerted to traffic jams you've kept abreast of car jackings, muggings, and shootings. The next best app!</textarea>
+   </div>
+   <div id="center">
+     <input type="text" name="my_location" placeholder="My Location:" action='/users/my_location'>
+     <input type="text" name="destination" placeholder="Destination:" action='/users/destination'>
+     <input type="text" name="search" placeholder="Search:" action='/users/search'>
+   </div>
+
+</div>
   <div id="map"></div>
     <script>
       // Note: This example requires that you consent to location sharing when
@@ -67,3 +97,4 @@
 
 </body>
 </html>
+
