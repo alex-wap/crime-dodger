@@ -39,3 +39,15 @@ class Crimes(Controller):
     def marker(self):
         crimes=self.models['Crime'].get_crimes()
         return self.load_view('crimes/simple_marker.html',crimes=crimes)
+
+    def marker2(self):
+        crimes=self.models['Crime'].get_crimes()
+        return self.load_view('crimes/marker2.html',crimes=crimes)
+
+    def directions(self):
+        crimes=self.models['Crime'].get_crimes()
+        return self.load_view('crimes/directions.html',crimes=crimes)
+
+    def directions2(self):
+        crimes=self.models['Crime'].get_crimes()
+        return self.load_view('crimes/directions2.html',crimes=crimes)
