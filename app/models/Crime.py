@@ -11,9 +11,17 @@ class Crime(Model):
   def get_crimes(self):
     crimes = client.get("cuks-n6tp", select ="category,time,location,date", where=""" category='ASSAULT' 
      or category='VEHICLE THEFT' or category='VANDALISM' or category='KIDNAPPING' 
-     or category='SEX OFFENSES, FORCIBLE' or category='DRIVING UNDER THE INFLUENCE' and DATE > '2015-01-01T00:00:00.000' """,limit=100)
+     or category='SEX OFFENSES, FORCIBLE' or category='DRIVING UNDER THE INFLUENCE' and DATE > '2015-01-01T00:00:00.000' """,order="date DESC", limit=1000)
     for crime in crimes:
       real_time = time.strptime(crime['time'], "%H:%M")
       crime['real_time'] = real_time
     client.close()
     return crimes
+
+# order of parameters:
+# SELECT
+# WHERE
+# ORDER BY
+# GROUP BY
+# LIMIT
+# OFFSET
