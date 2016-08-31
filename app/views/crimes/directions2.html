@@ -4,6 +4,7 @@
     <title>directions2</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <style>
       html, body {
         height: 100%;
@@ -12,6 +13,7 @@
       }
       #map {
         height: 70%;
+        margin: 3%;
       }
       .controls {
         margin-top: 10px;
@@ -58,11 +60,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
   </head>
   <body>
-    <div class="container">
-    </div>
     <input id="origin-input" class="controls" type="text"
         placeholder="Enter an origin location">
 
@@ -82,50 +81,48 @@
 
     <div id="map"></div>
     <div class="container">
-      <h2>Filter by crime</h2>
+      <h3>Un-check a box to remove that crime category from the map display</h3>
       <div class="row">
         <div class="col-md-2">
-          <div class="input-group input-group-lg">
-            <h3><span class="label label-info">Assault</span></h3>
-              <input type="checkbox" aria-label="...">
+          <div  class="input-group">
+            <h3><span class="label label-info">1- Assault</span></h3>
+                <input id="checkbox_assault" type="checkbox"  checked="checked" onclick="toggleCheck()" aria-label="...">
           </div><!-- /input-group -->
         </div><!-- /.col-md-2 -->
-      <div class="row">
         <div class="col-md-2">
-          <div class="input-group input-group-lg">
-            <h3><span class="label label-info">Vandalism</span></h3>
-              <input type="checkbox" aria-label="...">
+          <div  class="input-group">
+            <h3><span class="label label-info">2- Vandalism</span></h3>
+                <input  id="checkbox_vandalism"type="checkbox"  checked="checked" onclick="toggleCheck()" aria-label="...">
           </div><!-- /input-group -->
         </div><!-- /.col-md-2 -->
-      <div class="row">
         <div class="col-md-2">
-          <div class="input-group input-group-lg">
-            <h3><span class="label label-info">Kidnapping</span></h3>
-              <input type="checkbox" aria-label="...">
+          <div  class="input-group">
+            <h3><span class="label label-info">3- Kidnapping</span></h3>
+                <input id="checkbox_kidnapping" type="checkbox"  checked="checked" onclick="toggleCheck()" aria-label="...">
           </div><!-- /input-group -->
         </div><!-- /.col-md-2 -->
-      <div class="row">
         <div class="col-md-2">
-          <div class="input-group input-group-lg">
-            <h3><span class="label label-info">Sex Crime</span></h3>
-              <input type="checkbox" aria-label="...">
+          <div  class="input-group">
+            <h3><span class="label label-info">4- Sex Crime</span></h3>
+                <input id="checkbox_sex" type="checkbox"  checked="checked" onclick="toggleCheck()" aria-label="...">
           </div><!-- /input-group -->
         </div><!-- /.col-md-2 -->
-      <div class="row">
         <div class="col-md-2">
-          <div class="input-group input-group-lg">
-            <h3><span class="label label-info">DUI</span></h3>
-              <input type="checkbox" aria-label="...">
+          <div  class="input-group">
+            <h3><span class="label label-info">5- DUI</span></h3>
+                <input id="checkbox_dui" type="checkbox"  checked="checked" onclick="toggleCheck()" aria-label="...">
           </div><!-- /input-group -->
         </div><!-- /.col-md-2 -->
-      <div class="row">
         <div class="col-md-2">
-          <div class="input-group">
-            <h3><span class="label label-info">Vehicle Theft</span></h3>
-              <input type="checkbox" aria-label="...">
+          <div  class="input-group">
+            <h3><span class="label label-info">6- Vehicle Theft</span></h3>
+                <input id="checkbox_theft" class="cat_filter" type="checkbox" checked="checked" aria-label="...">
           </div><!-- /input-group -->
         </div><!-- /.col-md-2 -->
-    </div>
+      </div>
+    </div><!-- end of container -->
+
+
     <script>
       // This example requires the Places library. Include the libraries=places
       // parameter when you first load the API. For example:
@@ -275,7 +272,7 @@
         // markers2 is an array of the actual markers
       // user defines end/start time of search
       var startTime = 0;
-      var endTime = 8;
+      var endTime = 23;
       for (var i =0; i < markers.length;i++){
         if (markers[i].time < endTime && markers[i].time > startTime){
           // only make a new marker if it fits the time specified
