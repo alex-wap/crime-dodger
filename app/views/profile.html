@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="/static/css/styles.css" type="text/css">
+  </head>
+  <body>
+      <h1>Success! Welcome, {{ session['first_name'] }} </h1>
+      <div>
+      <h3>Saved Locations</h3>
+      {% if location %}
+        {% for location in locations %}
+      <p> {{location['location']}} </p>
+        {% endfor %}
+      {% endif %}
+      </div>
+      <div>
+      <h3>Saved Routes</h3>
+      {% if routes %}
+        {% for route in routes }
+      <p> {{routes['route']}} </p>
+        {% endfor %}
+      {% endif %}
+      </div>
+      <form action = '/'>
+  <button>Return</button>
+  </form>
+
+
+  </body>
+</html>
