@@ -41,6 +41,16 @@
       <span>Kidnapping</span><img src="https://maps.google.com/mapfiles/kml/paddle/K.png"><br>
       <span>Sex Crime</span><img src="https://maps.google.com/mapfiles/kml/paddle/S.png"><br>
       <span>DUI</span><img src="https://maps.google.com/mapfiles/kml/paddle/D.png"><br>
+
+      {%for crime in crimes%}
+      <p>this is the category for the crime: {{crime.category}}</p>
+      <p>this is the hour for the crime: {{crime.real_time[3]}}</p>
+        <script type="text/javascript">
+        var hour = {{crime.real_time[3]}};
+        console.log(hour)
+        </script>
+      {%endfor%}
+
     </div>
   </div>
     <script>
