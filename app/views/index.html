@@ -12,6 +12,7 @@
       }
       #map {
         height: 100%;
+        margin: 30px;
       }
       #top_header {
         height: 240px;
@@ -25,76 +26,104 @@
       #center {
         margin-left: 150px;
         margin-top: 20px;
+        margin-bottom: 20px;
       }
       textarea {
         font-size: 16px;
       }
     </style>
+    <!-- ATTN TEAM: (BrandonM, Tue 08/30) I added the bootstrap CDN links in to try to make the time selection menu work.
+      I've commented out the time selection button row since boostrap will make the map disappear at this point
+      until we figure out how to embed the map into the boostrap styling. I gotta focus on the data filtering now-->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
 <body>
-<div id="top_header">
-  <form>
-    <input type="submit" action='/users/login' value="Login">
-    <input type="submit" action='/users/registration' value="Registration">
-    <input id="right_side" type="submit" action='/user/profile' value="Profile">
-    <a href="/users/signout">Sign out</a>
-   </form> 
-   <div id="center">
-     <textarea rows="7" cols="90">CrimeDodger is a suitably-named navigation app that helps keep you safe by steering you clear of high crime areas while it is occurring. When you are out for the day, visiting a friend, on your way to work or rolling into an unfamiliar area late at night, the last thing you want to do is to place yourself into an uncomfortable situation.  This app is designed to combine crime data from government agencies with reports to provide a real-time guide to which areas of a city should be avoided.” It’s kind of like Waze but instead of getting alerted to traffic jams you've kept abreast of car jackings, muggings, and shootings. The next best app!</textarea>
-   </div>
-   <div id="center">
-     <input type="text" name="my_location" placeholder="My Location:" action='/users/my_location'>
-     <input type="text" name="destination" placeholder="Destination:" action='/users/destination'>
-     <input type="text" name="search" placeholder="Search:" action='/users/search'>
-   </div>
+  <div class="container-fluid">
+    <div id="top_header">
+      <form>
+        <input type="submit" action='/users/login' value="Login">
+        <input type="submit" action='/users/registration' value="Registration">
+        <input id="right_side" type="submit" action='/user/profile' value="Profile">
+        <a href="/users/signout">Sign out</a>
+       </form>
+       <div id="center">
+         <textarea rows="7" cols="90">CrimeDodger is a suitably-named navigation app that helps keep you safe by steering you clear of high crime areas while it is occurring. When you are out for the day, visiting a friend, on your way to work or rolling into an unfamiliar area late at night, the last thing you want to do is to place yourself into an uncomfortable situation.  This app is designed to combine crime data from government agencies with reports to provide a real-time guide to which areas of a city should be avoided.” It’s kind of like Waze but instead of getting alerted to traffic jams you've kept abreast of car jackings, muggings, and shootings. The next best app!</textarea>
+       </div>
+       <div id="center">
+         <input type="text" name="my_location" placeholder="My Location:" action='/users/my_location'>
+         <input type="text" name="destination" placeholder="Destination:" action='/users/destination'>
+         <input type="text" name="search" placeholder="Search:" action='/users/search'>
+       </div>
+       <!-- <div class="btn-group" role="group" aria-label="...">
+         <h3>Select a Custom time range</h3>
+         <button type="button" class="btn btn-default">Midnight - 1:59 AM</button>
+         <button type="button" class="btn btn-default">2:00 AM - 3:59 AM</button>
+         <button type="button" class="btn btn-default">4:00 AM - 5:59 AM</button>
+         <button type="button" class="btn btn-default">6:00 AM - 7:59 AM</button>
+         <button type="button" class="btn btn-default">8:00 AM - 9:59 AM</button>
+         <button type="button" class="btn btn-default">10:00 AM - 11:59 AM</button>
+         <button type="button" class="btn btn-default">12:00 PM - 1:59 PM</button>
+         <button type="button" class="btn btn-default">2:00 PM - 3:59 PM</button>
+         <button type="button" class="btn btn-default">4:00 PM - 5:59 PM</button>
+         <button type="button" class="btn btn-default">6:00 PM - 7:59 PM</button>
+         <button type="button" class="btn btn-default">8:00 PM - 9:59 PM</button>
+         <button type="button" class="btn btn-default">10:00 PM - 11:59 PM</button>
 
-</div>
-  <div id="map"></div>
-    <script>
-      // Note: This example requires that you consent to location sharing when
-      // prompted by your browser. If you see the error "The Geolocation service
-      // failed.", it means you probably did not give permission for the browser to
-      // locate you.
+       </div> -->
 
-      function initMap() {
-          var map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: 37.778180, lng: -122.432646},
-          zoom: 13
-        });
-        var infoWindow = new google.maps.InfoWindow({map: map});
+    </div>
+    <div id="map"></div>
+      <script>
+        // Note: This example requires that you consent to location sharing when
+        // prompted by your browser. If you see the error "The Geolocation service
+        // failed.", it means you probably did not give permission for the browser to
+        // locate you.
 
-        // Try HTML5 geolocation.
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function(position) {
-            var pos = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            };
-
-            infoWindow.setPosition(pos);
-            infoWindow.setContent('Location found.');
-            map.setCenter(pos);
-          }, function() {
-            handleLocationError(true, infoWindow, map.getCenter());
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: 37.778180, lng: -122.432646},
+            zoom: 13
           });
-        } else {
-          // Browser doesn't support Geolocation
-          handleLocationError(false, infoWindow, map.getCenter());
+          var infoWindow = new google.maps.InfoWindow({map: map});
+
+          // Try HTML5 geolocation.
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+              var pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+              };
+
+              infoWindow.setPosition(pos);
+              infoWindow.setContent('Location found.');
+              map.setCenter(pos);
+            }, function() {
+              handleLocationError(true, infoWindow, map.getCenter());
+            });
+          } else {
+            // Browser doesn't support Geolocation
+            handleLocationError(false, infoWindow, map.getCenter());
+          }
         }
-      }
 
-      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-        infoWindow.setPosition(pos);
-        infoWindow.setContent(browserHasGeolocation ?
-                              'Error: The Geolocation service failed.' :
-                              'Error: Your browser doesn\'t support geolocation.');
-      }
-    </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC463uEVAexz7AMHPofPGS7D3gKS9IITs8&callback=initMap"></script>
-    <div class="_"></div>
-    <div class="_"></div>
-    <div class="_"></div>
-
+        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+          infoWindow.setPosition(pos);
+          infoWindow.setContent(browserHasGeolocation ?
+                                'Error: The Geolocation service failed.' :
+                                'Error: Your browser doesn\'t support geolocation.');
+        }
+      </script>
+      <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC463uEVAexz7AMHPofPGS7D3gKS9IITs8&callback=initMap"></script>
+      <div class="_"></div>
+      <div class="_"></div>
+      <div class="_"></div>
+  <!-- </div> end of container-fluid  -->
 </body>
 </html>
-

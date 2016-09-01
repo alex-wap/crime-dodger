@@ -18,6 +18,15 @@ from system.core.router import routes
 """
 routes['default_controller'] = 'Welcome'
 routes['/crimes'] = 'Crimes#index'
+routes['/login'] = 'Users#login'
+routes['/logout'] = 'Users#logout'
+routes['/users/<id>'] = 'Users#profile'
+routes['/favorites/<id>'] = 'Favorites#edit'
+
+routes['POST']['/users/<id>/add'] = 'Users#add'
+routes['POST']['/users/create'] = 'Users#create'
+routes['POST']['/users/login'] = 'Users#check_login'
+
 routes['/jquery'] = 'Crimes#jquery'
 routes['/marker'] = 'Crimes#marker'
 routes['/marker2'] = 'Crimes#marker2'

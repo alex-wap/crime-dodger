@@ -3,7 +3,6 @@
   <title>Registraton with encryption</title>
 </head>
 <body>
-  <h1>Registration Form</h1>
   {% with messages = get_flashed_messages() %}
     {% if messages %}
       {% for message in messages %}
@@ -11,16 +10,23 @@
       {% endfor %}
     {% endif %}
   {% endwith %}
-  <form action='/users/create' method='POST'>
-    <div>
-    First Name:<input type="text" name="name" placeholder="Name:">
-    </div>
-    Password:<input type="text" name="password" placeholder="Password:">
-    <div>
-    Confirm Password:<input type="text" name="pw_confirmation" placeholder="Confirm Password">
-    </div>
-    <input type="submit" value="Submit">
-    <hr>
+
+  <h1>Registration Form</h1>
+  <form action='/users/create' method='post'>
+    <label>Name:</label><input type="text" name="name" placeholder="Never Gonna Give You Up"><br><br>
+    <label>Email:</label><input type="text" name="email" placeholder="Never Gonna Let You Down"><br><br>
+    <label>Password:</label><input type="password" name="password"><br><br>
+    <label>Confirm Password:</label><input type="password" name="confirm"><br><br>
+    <input type="submit" value="Register">
   </form>
+<hr>
+<h1>Login</h1>
+  <form action='/users/login' method='post'>
+    <label>Email:</label><input type="text" name="email" placeholder="Never gonna run around and desert you"><br><br>
+    <label>Password:</label><input type="password" name="password"><br><br>
+    <input type="submit" value="Login">
+  </form>
+  <hr>
+  add facebook option here or at the top
 </body>
 </html>

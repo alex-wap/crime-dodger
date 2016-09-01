@@ -12,4 +12,5 @@ Werkzeug==0.10.4
 wheel
 sqlalchemy-utils
 mysqlclient
+sodapy
 # wsgi add for deployment

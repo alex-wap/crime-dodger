@@ -16,4 +16,13 @@ class Crime(Model):
       real_time = time.strptime(crime['time'], "%H:%M")
       crime['real_time'] = real_time
     client.close()
+    print "this is the data from the set:", real_time
     return crimes
+
+# order of parameters:
+# SELECT
+# WHERE
+# ORDER BY
+# GROUP BY
+# LIMIT
+# OFFSET
