@@ -12,6 +12,8 @@ class Crimes(Controller):
     def __init__(self, action):
         super(Crimes, self).__init__(action)
         self.load_model('Crime')
+        self.load_model('Favorite')
+        self.load_model('User')
         self.db = self._app.db
 
     def index(self):
