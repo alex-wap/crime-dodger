@@ -47,10 +47,12 @@
 <body>
   <div class="container-fluid">
     <div id="top_header">
-      <form>
-        <input type="submit" action='/users/login' value="Login">
-        <input type="submit" action='/users/registration' value="Registration">
-        <input id="right_side" type="submit" action='/user/profile' value="Profile">
+      <form action='/users/login'>
+        <input type="submit" action='/users/login' value="Login/Registration">
+      </form>
+      <form action='/users/profile'>
+        <input type="submit"  value="Profile">
+      </form>  
         <a href="/users/signout">Sign out</a>
        </form>
        <div id="center">
