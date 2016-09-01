@@ -80,7 +80,6 @@
     <label for="changemode-driving">Driving</label>
   </div>
 
-  <input type="range" name="time-range" id="time-range" min="1" max="22" step="1">
   <div id="map"></div>
 
   <script>
@@ -89,12 +88,12 @@
       // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 
       function initMap() {
-        var icon = {'T':'https://maps.google.com/mapfiles/kml/paddle/6-lv.png',
-        'A':'https://maps.google.com/mapfiles/kml/paddle/1-lv.png',
-        'V':'https://maps.google.com/mapfiles/kml/paddle/2-lv.png',
-        'K':'https://maps.google.com/mapfiles/kml/paddle/3-lv.png',
-        'S':'https://maps.google.com/mapfiles/kml/paddle/4-lv.png',
-        'D':'https://maps.google.com/mapfiles/kml/paddle/5-lv.png'}
+        var icon = {
+          'A':'https://maps.google.com/mapfiles/kml/paddle/1-lv.png',
+          'V':'https://maps.google.com/mapfiles/kml/paddle/2-lv.png',
+          'K':'https://maps.google.com/mapfiles/kml/paddle/3-lv.png',
+          'S':'https://maps.google.com/mapfiles/kml/paddle/4-lv.png',
+          'T':'https://maps.google.com/mapfiles/kml/paddle/5-lv.png'};
 
       //I'll comment the code as we go
 
@@ -147,10 +146,6 @@
         {% elif crime.category == 'SEX OFFENSES, FORCIBLE': %}
         markers.push({position:{lat: {{crime.location.coordinates[1]}},lng: {{crime.location.coordinates[0]}}},
           icon: icon['S'],
-          time: {{crime.real_time.tm_hour}}})
-        {% elif crime.category == 'DRIVING UNDER THE INFLUENCE': %}
-        markers.push({position:{lat: {{crime.location.coordinates[1]}},lng: {{crime.location.coordinates[0]}}},
-          icon: icon['D'],
           time: {{crime.real_time.tm_hour}}})
         {% endif %}
         {% endfor %}
@@ -246,12 +241,12 @@
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(origin_input);
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(destination_input);
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(modes);
-        map.controls[google.maps.ControlPosition.TOP_LEFT].push(time_range);
+        // map.controls[google.maps.ControlPosition.TOP_LEFT].push(time_range);
 
         var origin_autocomplete = new google.maps.places.Autocomplete(origin_input);
         origin_autocomplete.bindTo('bounds', map);
-        var destination_autocomplete =
-        new google.maps.places.Autocomplete(destination_input);
+
+        var destination_autocomplete = new google.maps.places.Autocomplete(destination_input);
         destination_autocomplete.bindTo('bounds', map);
 
         // Sets a listener on a radio button to change the filter type on Places
@@ -282,7 +277,8 @@
         function expandViewportToFitPlace(map, place) {
           if (place.geometry.viewport) {
             map.fitBounds(place.geometry.viewport);
-          } else {
+          } 
+          else {
             map.setCenter(place.geometry.location);
             map.setZoom(17);
           }
@@ -364,13 +360,9 @@
           if(document.getElementById('sex_crime').checked) {
             checked_boxes.push(document.getElementById('sex_crime').value);
           }
-          if(document.getElementById('dui').checked) {
-            checked_boxes.push(document.getElementById('dui').value);
-          }
           if(document.getElementById('vehicle_theft').checked) {
             checked_boxes.push(document.getElementById('vehicle_theft').value);
           }
-          console.log(checked_boxes);
         }
 
 
@@ -389,41 +381,39 @@
 
 
         // markers2 is an array of the actual markers
-      // user defines end/start time of search
-      var startTime = 0;
-      var endTime = 23;
+      //  these are the default values that display when you first view the page.
+      var startTime = 18;
+      var endTime = 19;
 
+
+
+      // INITIALIZING ARRAYS
 
       for (var i =0; i < markers.length;i++){
-        if (markers[i].time < endTime && markers[i].time > startTime){
           // only make a new marker if it fits the time specified
-          markers2.push(createNewMarker(markers[i],map));
+          markers2.push(createNewMarker(markers[i],null));
         }
+
+        var circles = new Array();
+        for(var i = 0; i < markers2.length;i++){
+          circles[i] = new google.maps.Circle({
+            strokeOpacity: 0,
+            map: null,
+        radius: 100,    // meters
+        fillColor: '#AA0000'
+      });
+          circles[i].bindTo('center', markers2[i], 'position');
+        }
+
+      // INITIALIZING ARRAYS
+
+      generateMap();
+
+      function generateMapAllTimes(){
+        startTime=0;
+        endTime=23;
+        generateMap();
       }
-      //
-
-
-
-
-
-
-
-
-
-      var circles = new Array();
-      // for(var i = 0; i < markers2.length;i++){
-      //   circles[i] = new google.maps.Circle({
-      //     map: map,
-      //   radius: 100,    // meters
-      //   fillColor: '#AA0000'
-      // });
-      //   circles[i].bindTo('center', markers2[i], 'position');
-      // }
-
-
-
-
-
 
 
 
@@ -432,36 +422,36 @@
       // There is no easy way to clear markers. You have to do it manually. No google-provided function. 
       // 
 
-      function clearMap(){
+      // function clearMap(){
 
 
-        for (var i = 0; i < markers2.length; i++) {
-          //This technically doesn't delete the marker. It just changes the map on which it is displayed on. 
-          //If we want to HIDE the markers, instead of deleting them, this line is important. We can simply loop through our markers and setMap(map) to make them appear again. 
-          markers2[i].setMap(null);
-        }
+      //   for (var i = 0; i < markers2.length; i++) {
+      //     //This technically doesn't delete the marker. It just changes the map on which it is displayed on. 
+      //     //If we want to HIDE the markers, instead of deleting them, this line is important. We can simply loop through our markers and setMap(map) to make them appear again. 
+      //     markers2[i].setMap(null);
+      //   }
 
 
-        for (var i = 0; i < circles.length; i++) {
-          circles[i].setMap(null);
-        }
+      //   for (var i = 0; i < circles.length; i++) {
+      //     circles[i].setMap(null);
+      //   }
 
 
 
-        //this code clears the arrays. Why? Why not just clear the arrays and be done?
-        //It is true that if we want to put the markers BACK, then clearing the arrays is a bad idea. In this SPECIFIC case, we don't care about "hiding" markers and then showing them again. 
+      //   //this code clears the arrays. Why? Why not just clear the arrays and be done?
+      //   //It is true that if we want to put the markers BACK, then clearing the arrays is a bad idea. In this SPECIFIC case, we don't care about "hiding" markers and then showing them again. 
 
-        //If we were to ONLY clear these arrays, it would be bad for 2 reasons.
-        // 1. The markers would STILL be there. Clearing the array does NOT affect visiblity. The markers are not dependent on the array we created. The array is just an address book for existing markers.
-        // 2. We wouldn't know where our existing markers are, and can't control(delete) them.
+      //   //If we were to ONLY clear these arrays, it would be bad for 2 reasons.
+      //   // 1. The markers would STILL be there. Clearing the array does NOT affect visiblity. The markers are not dependent on the array we created. The array is just an address book for existing markers.
+      //   // 2. We wouldn't know where our existing markers are, and can't control(delete) them.
 
-        // Suggestion by Alex: don't clear the array. We'll discuss it later. This is important but no time to implement it. 
+      //   // Suggestion by Alex: don't clear the array. We'll discuss it later. This is important but no time to implement it. 
 
 
-        // The reason I cleared the arrays is because we repopulate them EVERY time new conditions are set. 
-        markers2 = [];
-        circles = new Array();
-      }
+      //   // The reason I cleared the arrays is because we repopulate them EVERY time new conditions are set. 
+      //   markers2 = [];
+      //   circles = new Array();
+      // }
 
 
 
@@ -487,31 +477,26 @@
           // There are 2 conditions that need to be satisfied. 
 
           // Condition #1, does the current marker (that is in the array markers) have an attribute "time" that is between our specified values?
-          if (markers[i].time < endTime && markers[i].time > startTime){
-
-
+          if (markers[i].time <= endTime && markers[i].time >= startTime && $.inArray(markers[i]['icon'], checked_boxes)!=-1){
 
           // We also want to know if it corresponds to a checked box. 
           //The code below is jquery. $.inArray simply checks if the current marker's icon exists in an array of "approved" or "visible" icons. These icons are stored as links to images. 
-          if($.inArray(markers[i]['icon'], checked_boxes)!=-1){
             // we are pushing the marker into an array to delete it later.
             //the actual creation of the marker INTO the map occurs within the function createNewMarker. Remember, in Alex's function, createNewMarker does 2 things. It CREATES the marker, and returns information about that marker so we can delete it later. 
-            markers2.push(createNewMarker(markers[i],map));
+            // markers2.push(createNewMarker(markers[i],map));
+
+            markers2[i].setMap(map);
+            circles[i].setMap(map);
           }
-        }
+          else{
+            markers2[i].setMap(null);
+            circles[i].setMap(null);
+          }
 
 // Only 1 more thing that needs to be explained. the check boxes. 
 
-      }
-      for(var i = 0; i < markers2.length;i++){
-        circles[i] = new google.maps.Circle({
-          map: map,
-        radius: 100,    // meters
-        fillColor: '#AA0000'
-      });
-        circles[i].bindTo('center', markers2[i], 'position');
-      }
-    }
+}
+}
 
 
 
@@ -545,7 +530,7 @@
 
 
         // We went over this. 
-        clearMap();
+        // clearMap();
 
 
         // We will talk about this RIGHT now. 
@@ -554,8 +539,8 @@
 
 
 
-        route(origin_place_id, destination_place_id, travel_mode,
-          directionsService, directionsDisplay);
+        // route(origin_place_id, destination_place_id, travel_mode,
+        //   directionsService, directionsDisplay);
       });
 
 
@@ -566,7 +551,7 @@
 
 
           //This is obvious, we want a new map. 
-          clearMap();
+          // clearMap();
 
 
           // This is something we haven't seen/talked about yet. 
@@ -581,8 +566,8 @@
 
 
           //updates the blue line route and also the directions. 
-          route(origin_place_id, destination_place_id, travel_mode,
-            directionsService, directionsDisplay);  
+          // route(origin_place_id, destination_place_id, travel_mode,
+          //   directionsService, directionsDisplay);  
         });
       }
 
@@ -594,7 +579,6 @@
       addCheckboxListener('vandalism')
       addCheckboxListener('kidnapping')
       addCheckboxListener('sex_crime')
-      addCheckboxListener('dui')
       addCheckboxListener('vehicle_theft')
 
 
@@ -609,6 +593,9 @@
 
       });
 
+      document.getElementById('showAllTimes').addEventListener('mouseup', function(){
+        generateMapAllTimes();
+      });
     }
 
 
@@ -642,13 +629,14 @@
       <span>Vandalism</span><img src="https://maps.google.com/mapfiles/kml/paddle/2-lv.png"><input  id="vandalism" type="checkbox" name="vandalism" value="https://maps.google.com/mapfiles/kml/paddle/2-lv.png" checked><br>
       <span>Kidnapping</span><img src="https://maps.google.com/mapfiles/kml/paddle/3-lv.png"><input  id="kidnapping" type="checkbox" name="kidnapping" value="https://maps.google.com/mapfiles/kml/paddle/3-lv.png" checked><br>
       <span>Sex Crime</span><img src="https://maps.google.com/mapfiles/kml/paddle/4-lv.png"><input  id="sex_crime" type="checkbox" name="sex_crime" value="https://maps.google.com/mapfiles/kml/paddle/4-lv.png" checked><br>
-      <span>DUI</span><img src="https://maps.google.com/mapfiles/kml/paddle/5-lv.png"><input  id="dui" type="checkbox" name="dui" value="https://maps.google.com/mapfiles/kml/paddle/5-lv.png" checked><br>
-      <span>Vehicle Theft</span><img src="https://maps.google.com/mapfiles/kml/paddle/6-lv.png"><input  id="vehicle_theft" type="checkbox" name="vehicle_theft" value="https://maps.google.com/mapfiles/kml/paddle/6-lv.png" checked><br>
+      <span>Vehicle Theft</span><img src="https://maps.google.com/mapfiles/kml/paddle/5-lv.png"><input  id="vehicle_theft" type="checkbox" name="vehicle_theft" value="https://maps.google.com/mapfiles/kml/paddle/5-lv.png" checked><br>
     </div>
     <div id="time-range-display">
-    <p>Time range (Military Time)</p>
-    <input type="text" id="start" name="start" value="0" readonly>
-      <input type="text" id="end" name="end" value="23" readonly>
+      <p>Time range (Military Time)</p>
+      <input type="range" name="time-range" id="time-range" min="1" max="22" step="1"> <br>
+      <input type="text" id="start" name="start" value="0" readonly>
+      <input type="text" id="end" name="end" value="23" readonly> <br>
+      <button id="showAllTimes">Show Crime For All Hours</button>
     </div>
     <div id="text-directions"></div>
   </body>

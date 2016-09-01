@@ -1,12 +1,48 @@
 <html>
   <head>
-    <link rel="stylesheet" href="/static/css/styles.css" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="/static/css/styles.css" type="text/css"> -->
+    <style>
+
+      body {
+         margin: 0;
+         background: url('/static/css/mocha-grunge-red-slate.png');
+         background-size: 2880px 1620px;
+         background-repeat:no-repeat;
+        }
+      .navbar{
+           background: url('/static/css/mocha-grunge-red-slate.png');
+           background-size: 2880px 1620px;
+           background-repeat:no-repeat;
+      }
+      .container{
+           background: url('/static/css/mocha-grunge-red-slate.png');
+           background-size: 2880px 1620px;
+           background-repeat:no-repeat;
+      }
+    </style>
   </head>
   <body>
-
-      <h1>{{user['name']}}'s saved locations</h1>
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <ul class="nav navbar-nav navbar-right">
+            <ul class="nav nav-pills">
+              <li role="presentation"><a href="/">Home</a></li>
+              <li role="presentation"><a href="/logout">Logout</a></li>
+            </ul>
+          </ul>
+        </div>
+      </nav>
+        <div class="well">
+          <div class="page-header col-sm-12 col-md-8 col-lg-8">
+            <h1>{{user['name']}}'s saved locations</h1>
+          </div>
+        </div>
       <div>
-      <table>
+      <table class="table col-sm-12 col-md-8 col-lg-8">
       <thead>
         <th>Location Name</th>
         <th>Address</th>
@@ -31,18 +67,29 @@
         {% endfor %}
       </tbody>
       </table>
-        <br>        
+        <br>
       </div>
       {% if session['id'] == user['id']: %}
+      <form id="registration" action='/users/create' method='post'>
+
       <form action="/users/{{user.id}}/add" method="post">
         <label>New Location</label>
-        <label>Name:</label><input type="text" name="name"><br>
-        <label>Address:</label><input type="text" name="location"><br>
-        <input type="submit" value="Add new location">
+        <div class="input-group col-sm-6 col-lg-6">
+          <span class="input-group-addon" id="basic-addon1">New Location Name:</span>
+          <input type="text" name="name" class="form-control" placeholder="Never Gonna Give You Up" aria-describedby="basic-addon1">
+        </div>
+        <div class="input-group col-sm-6 col-lg-6">
+          <span class="input-group-addon" id="basic-addon2">Address:</span>
+          <input type="text" name="location" class=" form-control" placeholder="Never Gonna Let You Down" aria-describedby="basic-addon2">
+        </div>
+        <button type="submit" class="btn btn-primary">Add new location</button>
+
+        <!-- <label>Name:</label><input type="text" name="name"><br>
+        <label>Address:</label><input type="text" name="location"><br> -->
+        <!-- <input type="submit" value="Add new location"> -->
       </form>
       {% endif %}
       <a href="/"><button>Home</button></a>
-
-
+      </div>
   </body>
 </html>
