@@ -22,8 +22,9 @@
         <td>{{favorite['location']}}</td>
         <td>
         {% if session['id'] == user['id']: %}
-        <a href="/favorites/{{favorite.id}}">edit</a>
-         | delete | share?
+        <td><a href="/edit/{{favorite.id}}">Edit</a></td>        
+        <td><a href="/delete/{{favorite.id}}">Delete</a></td>
+
         {% endif %}
         </td>
         </tr>
