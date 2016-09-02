@@ -1,98 +1,119 @@
 <html>
 <head>
-  <title>Registraton with encryption</title>
+  <title>Login</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
   <style>
-    .page-header{
-      margin-top: 7%;
-    }
     body {
        margin: 0;
        background: url('/static/css/san_fran.png');
        background-size: 1985px 915px;
        background-repeat:no-repeat;
       }
-    .navbar{
-         background: url('/static/css/san_fran.png');
+
+      .navbar-default{
+        background-color: #B2FF9E;
+      }
+
+    .container{
+         border-radius: 10px;
+         background: #222;
          background-size: 1985px 915px;
          background-repeat:no-repeat;
     }
-    .container{
-         background: url('/static/css/mocha-grunge-slate.png');
-         background-size: 1985px 915px;
-         background-repeat:no-repeat;
+    .flash{
+      margin-top: 10px;
+    }
+    label{
+      color:white;
+    }
+    h1{
+      color: white;
     }
   </style>
 </head>
 <body>
-  <nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
+  <nav class="navbar navbar-inverse">
       <div class="navbar-header">
         <form class="navbar-form navbar-left" role="search" action="/">
           <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-success">HOME</button>
+            <button type="submit" class="btn btn-primary btn-success">Home</button>
           </div>
         </form>
       </div>
+  </nav>
+      <div class="container">
+
       {% with messages = get_flashed_messages() %}
         {% if messages %}
           {% for message in messages %}
-            <p>{{message}}</p>
+            <div class="alert alert-danger flash">{{message}}</div>
           {% endfor %}
         {% endif %}
       {% endwith %}
 
-      <div class="page-header">
-        <h1>Registration Form <small>Please Login if you have an account</small></h1>
+      <div>
+        <h1>Register</h1>
       </div>
-      <form id="registration" action='/users/create' method='post'>
-        <div class="input-group col-sm-4 col-lg-6">
-          <span class="input-group-addon" id="basic-addon1">Name:</span>
-          <input type="text" name="name" class="form-control" placeholder="Never Gonna Give You Up" aria-describedby="basic-addon1">
-        </div>
-        <div class="input-group col-sm-4 col-lg-6">
-          <span class="input-group-addon" id="basic-addon2">Email:</span>
-          <input type="text" name="email" class=" form-control" placeholder="Never Gonna Let You Down" aria-describedby="basic-addon2">
-        </div>
-        <div class="input-group col-sm-4 col-lg-6">
-          <span class="input-group-addon" id="basic-addon3">password</span>
-          <input type="password" name="password" class="form-control" aria-describedby="basic-addon3">
-        </div>
-        <div class="input-group col-sm-4 col-lg-6">
-          <span class="input-group-addon" id="basic-addon4">Confirm password:</span>
-          <input type="text" name="confirm" class="form-control" aria-describedby="basic-addon4">
-        </div>
-        <button type="submit" class="btn btn-success">Register</button>
-        <!-- <label>Name:</label><input type="text" name="name" placeholder="Never Gonna Give You Up"><br><br> -->
-        <!-- <label>Email:</label><input type="text" name="email" placeholder="Never Gonna Let You Down"><br><br>
-        <label>Password:</label><input type="password" name="password"><br><br>
-        <label>Confirm Password:</label><input type="password" name="confirm"><br><br> -->
-        <!-- <input type="submit" value="Register"> -->
-      </form>
-    <hr>
+  <form action='/users/create' method='post'>
+      <div class="form-group row">
+  <label for="name-field" class="col-xs-2 col-form-label">Name</label>
+  <div class="col-xs-10">
+    <input type="text" name="name" class="form-control" placeholder="Never Gonna Give You Up" id="name-field">
+  </div>
+</div>
+<div class="form-group row">
+  <label for="email-reg" class="col-xs-2 col-form-label">Email</label>
+  <div class="col-xs-10">
+    <input type="text" name="email" class=" form-control" placeholder="Never Gonna Let You Down" id="email-reg">
+  </div>
+</div>
+<div class="form-group row">
+  <label for="pass-reg" class="col-xs-2 col-form-label">Password</label>
+  <div class="col-xs-10">
+    <input type="password" name="password" class="form-control" placeholder="Never Gonna Run Around and Desert You
+" id="pass-reg">
+  </div>
+</div>
+<div class="form-group row">
+  <label for="confirm-field" class="col-xs-2 col-form-label">Password Confirm</label>
+  <div class="col-xs-10">
+    <input type="password" name="confirm" class="form-control" placeholder="Never Gonna Make You Cry" id="confirm-field">
+  </div>
+  </div>
+  <div class="form-group row">
+      <div class="offset-sm-2 col-sm-10">
+        <input type="submit" class="btn btn-success" value="Register">
+      </div>
+  </div>
+  </form>
+  <hr>
+  <div>
     <h1>Login</h1>
-      <form action='/users/login' method='post'>
-        <div class="input-group col-sm-4 col-lg-6">
-          <span class="input-group-addon" id="basic-addon5">Email:</span>
-          <input type="text" name="email" class=" form-control" placeholder="Never Gonna Let You Down" aria-describedby="basic-addon5">
+  </div>
+  <form action='/users/login' method='post'>
+<div class="form-group row">
+  <label for="email-login" class="col-xs-2 col-form-label">Email</label>
+  <div class="col-xs-10">
+    <input type="text" name="email" class=" form-control" placeholder="Never Gonna Say Goodbye" id="email-login">
+  </div>
+</div>
+<div class="form-group row">
+  <label for="pass-login" class="col-xs-2 col-form-label">Password</label>
+  <div class="col-xs-10">
+    <input type="password" name="password" class="form-control" placeholder="Never Gonna Tell a Lie and Hurt You
+" id="pass-login">
+  </div>
+</div>
+<div class="form-group row">
+      <div class="offset-sm-2 col-sm-10">
+        <input type="submit" class="btn btn-success" value="Login">
         </div>
-        <div class="input-group col-sm-4 col-lg-6">
-          <span class="input-group-addon" id="basic-addon6">password</span>
-          <input type="password" name="password" class="form-control" aria-describedby="basic-addon6">
         </div>
-        <button type="submit" class="btn btn-success">Login</button>
+  </form>
 
-        <!-- <label>Email:</label><input type="text" name="email" placeholder="Never gonna run around and desert you"><br><br>
-        <label>Password:</label><input type="password" name="password"><br><br>
-        <input type="submit" value="Login"> -->
-      </form>
-      <hr>
-      add facebook option here or at the top
-    </div>
-  </nav>
-
-
+</div> <!-- container end -->
 </body>
 </html>
