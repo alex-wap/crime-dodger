@@ -49,3 +49,6 @@ class Users(Controller):
         user=self.models['User'].get_user(id)
         favorites=self.models['Favorite'].get_favorites(id)
         return self.load_view('profile.html',user=user[0],favorites=favorites)
+
+    def delete(self,id):
+        return self.load_view('delete.html', user=user[0], favorites=favorites)
