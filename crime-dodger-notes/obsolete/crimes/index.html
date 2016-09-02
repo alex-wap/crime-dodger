@@ -1,0 +1,15 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="/static/css/styles.css" type="text/css">
+  </head>
+  <body>
+    {{crimes[0]}}
+    {% for crime in crimes: %}
+    <div class="crime">
+    	<h2>{{crime.category}}</h2>
+    	<p>{{crime.real_time['tm_hour']}}</p>
+    	Lat/Long:{{crime.location.coordinates[1]}},{{crime.location.coordinates[0]}}
+    </div>
+    {% endfor %}
+  </body>
+</html>

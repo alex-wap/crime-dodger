@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Crime Map with Clusters</title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/js-marker-clusterer/1.0.0/markerclusterer_compiled.js'></script>
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 500px;
+      }
+      #container{
+        height: 500px;
+        margin: 5%;
+      }
+    </style>
+  </head>
+  <body>
+
+  <div id="container">
+    <div id="map"></div>
+    <div>
+      <span>Vehicle Theft</span><img src="https://maps.google.com/mapfiles/kml/paddle/T.png"><br>
+      <span>Assault</span><img src="https://maps.google.com/mapfiles/kml/paddle/A.png"><br>
+      <span>Vandalism</span><img src="https://maps.google.com/mapfiles/kml/paddle/V.png"><br>
+      <span>Kidnapping</span><img src="https://maps.google.com/mapfiles/kml/paddle/K.png"><br>
+      <span>Sex Crime</span><img src="https://maps.google.com/mapfiles/kml/paddle/S.png"><br>
+      <span>DUI</span><img src="https://maps.google.com/mapfiles/kml/paddle/D.png"><br>
+    </div>
+  </div>
+    <script>
+
+    // set new icons
+    var icon = {'T':'https://maps.google.com/mapfiles/kml/paddle/T.png',
+    'A':'https://maps.google.com/mapfiles/kml/paddle/A.png',
+    'V':'https://maps.google.com/mapfiles/kml/paddle/V.png',
+    'K':'https://maps.google.com/mapfiles/kml/paddle/K.png',
+    'S':'https://maps.google.com/mapfiles/kml/paddle/S.png',
+    'D':'https://maps.google.com/mapfiles/kml/paddle/D.png'}
+     var markers = [];
+     var markers2= [];
+    {% for crime in crimes: %}
+      {% if crime.category == 'VEHICLE THEFT': %}
+        markers.push({position:{lat: {{crime.location.coordinates[1]}},lng: {{crime.location.coordinates[0]}}},
+        icon: icon['T'],
+        time: {{crime.real_time.tm_hour}}})
+      {% elif crime.category == 'ASSAULT': %}
+        markers.push({position:{lat: {{crime.location.coordinates[1]}},lng: {{crime.location.coordinates[0]}}},
+        icon: icon['A'],
+        time: {{crime.real_time.tm_hour}}})
+      {% elif crime.category == 'VANDALISM': %}
+        markers.push({position:{lat: {{crime.location.coordinates[1]}},lng: {{crime.location.coordinates[0]}}},
+        icon: icon['V'],
+        time: {{crime.real_time.tm_hour}}})
+      {% elif crime.category == 'KIDNAPPING': %}
+        markers.push({position:{lat: {{crime.location.coordinates[1]}},lng: {{crime.location.coordinates[0]}}},
+        icon: icon['K'],
+        time: {{crime.real_time.tm_hour}}})
+      {% elif crime.category == 'SEX OFFENSES, FORCIBLE': %}
+        markers.push({position:{lat: {{crime.location.coordinates[1]}},lng: {{crime.location.coordinates[0]}}},
+        icon: icon['S'],
+        time: {{crime.real_time.tm_hour}}})
+      {% elif crime.category == 'DRIVING UNDER THE INFLUENCE': %}
+        markers.push({position:{lat: {{crime.location.coordinates[1]}},lng: {{crime.location.coordinates[0]}}},
+        icon: icon['D'],
+        time: {{crime.real_time.tm_hour}}})
+      {% endif %}
+    {% endfor %}
+
+     // To add the marker to the map, call setMap();
+     // marker.setMap(map);
+
+
+    	function createNewMarker(obj,map){
+    		var marker = new google.maps.Marker({
+			position: obj.position,
+			map: map,
+			icon: obj.icon
+			});
+			return marker;
+    	}
+
+      function initMap() {
+        var center = {lat: 37.7762801, lng: -122.4327323};
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 13,
+          center: center
+        });
+
+      // markers2 is an array of the actual markers
+      // user defines end/start time of search
+      var startTime = 0;
+      var endTime = 8;
+  		for (var i =0; i < markers.length;i++){
+        if (markers[i].time < endTime && markers[i].time > startTime){
+          // only make a new marker if it fits the time specified
+          markers2.push(createNewMarker(markers[i],map));
+        }
+  		}
+      //
+      var markercluster = new MarkerClusterer(map, markers2, {
+    imagePath: 'https://cdn.rawgit.com/googlemaps/js-marker-clusterer/gh-pages/images/m'
+        });
+
+      var circles = new Array();
+      for(var i = 0; i < markers2.length;i++){
+        circles[i] = new google.maps.Circle({
+        map: map,
+        radius: 100,    // meters
+        fillColor: '#AA0000'
+      });
+        circles[i].bindTo('center', markers2[i], 'position');
+      }
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC463uEVAexz7AMHPofPGS7D3gKS9IITs8&callback=initMap">
+    </script>
+
+  </body>
+</html>

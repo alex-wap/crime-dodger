@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Simple markers</title>
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 70%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+
+    	var markers= [{lat: 37.764731, lng: -122.493328},
+        {lat:37.781446,lng:-122.417147},
+        {lat:37.779585,lng:-122.41677}];
+
+    	function createNewMarker(obj,map){
+    		var marker = new google.maps.Marker({
+			position: obj,
+			map: map,
+			title: 'Hello World!'
+			});
+			console.log(obj);
+			return marker;
+    	}
+
+      function initMap() {
+        var center = {lat: 37.7762801, lng: -122.4327323};
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 13,
+          center: center
+        });
+
+		for (var i =0; i < markers.length;i++){
+			createNewMarker(markers[i],map);
+			console.log(markers[i])
+		}
+
+		google.maps.event.addListener(marker, 'click', function() {
+          console.log("click it")
+        });
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC463uEVAexz7AMHPofPGS7D3gKS9IITs8&callback=initMap">
+    </script>
+  </body>
+</html>

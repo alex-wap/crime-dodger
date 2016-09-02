@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>directions2</title>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+  <!-- <link rel="stylesheet" href="/static/css/styles.css" type="text/css"> -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <style>
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 1%;
+    background: url('/static/css/mocha-grunge-slate.png');
+    background-size: 2880px 1620px;
+  }
+  .navbar-header li h1{
+    margin-right: 20%;
+    background-color: GhostWhite;
+  }
+  .container-fluid{
+    background-color: GhostWhite;
+  }
+  #map {
+    height: 70%;
+    margin-bottom: 3%;
+  }
+  .page-header{
+    margin-top: 30px;
+  }
+  .controls {
+    margin-top: 10px;
+    border: 1px solid transparent;
+    border-radius: 2px 0 0 2px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    height: 32px;
+    outline: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  }
+  .navbar{
+    background: url('/static/css/mocha-grunge-slate.png');
+    background-size: 2880px 1620px;
+    background-color: GhostWhite;
+  }
+  /*.container{
+  background: url('/static/css/mocha-grunge-slate.png');
+  background-size: 2880px 1620px;
+  background-repeat:no-repeat;
+  }*/
+  #origin-input,
+  #destination-input {
+    background-color: #fff;
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 300;
+    margin-left: 12px;
+    padding: 0 11px 0 13px;
+    text-overflow: ellipsis;
+    width: 200px;
+  }
+
+  #origin-input:focus,
+  #destination-input:focus {
+    border-color: #4d90fe;
+  }
+
+  #mode-selector {
+    color: #fff;
+    background-color: #4d90fe;
+    margin-left: 12px;
+    padding: 5px 11px 0px 11px;
+  }
+
+  #mode-selector label {
+    font-family: Roboto;
+    font-size: 13px;
+    font-weight: 300;
+  }
+  #text-directions{
+    width: 100%;
+  }
+  #time-range{
+    margin-left: 20px;
+  }
+  #showAllTimes{
+    margin-left: 20px;
+  }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+    <a class="navbar-nav" href="/"><img class="img-responsive" alt="site logo" src="/static/img/Logo2small.png"></img></a>
+        <ul class="nav navbar-nav">
+          <li><h1> Safe Routes through San Francisco</h1></li>
+          <li role="presentation"><a href="/"><button type="button" class="btn btn-primary navbar-btn">Home</button></a></li>
+          <li role="presentation"><a href="/login"><button type="button" class="btn btn-primary navbar-btn">Login</button></a></li>
+          <li role="presentation"><a href="/users/<id>"><button type="button" class="btn btn-primary navbar-btn">Profile</button></a></li>
+
+        </ul>
+    </div>
+    </nav>
+    <div class="container">
+      <!-- <div class="page-header">
+      <h1>CrimeDodger <small>Safe Routes through San Francisco</small></h1>
+    </div> -->
+    <input id="origin-input" class="controls" type="text" 
+    placeholder="Enter an origin location">
+
+    <input id="destination-input" class="controls" type="text" {% if favorite: %} value="{{favorite.location}}" {% endif %}
+    placeholder="Enter a destination location">
+
+    <div id="mode-selector" class="controls">
+      <input type="radio" name="type" id="changemode-walking" checked="checked">
+      <label for="changemode-walking">Walking</label>
+
+      <input type="radio" name="type" id="changemode-transit">
+      <label for="changemode-transit">Transit</label>
+
+      <input type="radio" name="type" id="changemode-driving">
+      <label for="changemode-driving">Driving</label>
+    </div>
+  </div>
+
+  <script>
+  // This example requires the Places library. Include the libraries=places
+  // parameter when you first load the API. For example:
+  // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+
+  function initMap() {
+    var icon = {
+      'A':'https://maps.google.com/mapfiles/kml/paddle/1-lv.png',
+      'V':'https://maps.google.com/mapfiles/kml/paddle/2-lv.png',
+      'K':'https://maps.google.com/mapfiles/kml/paddle/3-lv.png',
+      'S':'https://maps.google.com/mapfiles/kml/paddle/4-lv.png',
+      'T':'https://maps.google.com/mapfiles/kml/paddle/5-lv.png'};
+      // This one gets its data from the backend. Thousands of entries. Will NEVER be cleared, if it does we can never redraw the map.
+      var markers = [];
+
+      // Holds the VISIBLE markers. We NEED to store these because deleting them requires we know which ones are being displayed.
+      var markers2= [];
+
+      //What is this for? Trick question, this is never used. We use an array for CIRCLES. The circles array is defined FAR below. This should be above.
+      var markers3 = [];
+
+      {% for crime in crimes: %}
+      {% if crime.category == 'VEHICLE THEFT': %}
+      markers.push({position:{lat: {{crime.location.coordinates[1]}},lng: {{crime.location.coordinates[0]}}},
+        icon: icon['T'],
+        time: {{crime.real_time.tm_hour}}})
+        {% elif crime.category == 'ASSAULT': %}
+        markers.push({position:{lat: {{crime.location.coordinates[1]}},lng: {{crime.location.coordinates[0]}}},
+          icon: icon['A'],
+          time: {{crime.real_time.tm_hour}}})
+          {% elif crime.category == 'VANDALISM': %}
+          markers.push({position:{lat: {{crime.location.coordinates[1]}},lng: {{crime.location.coordinates[0]}}},
+            icon: icon['V'],
+            time: {{crime.real_time.tm_hour}}})
+            {% elif crime.category == 'KIDNAPPING': %}
+            markers.push({position:{lat: {{crime.location.coordinates[1]}},lng: {{crime.location.coordinates[0]}}},
+              icon: icon['K'],
+              time: {{crime.real_time.tm_hour}}})
+              {% elif crime.category == 'SEX OFFENSES, FORCIBLE': %}
+              markers.push({position:{lat: {{crime.location.coordinates[1]}},lng: {{crime.location.coordinates[0]}}},
+                icon: icon['S'],
+                time: {{crime.real_time.tm_hour}}})
+                {% endif %}
+                {% endfor %}
+
+                // The Code above creates an array that will be used to create ANOTHER array that will place the markers.
+
+                // This function PLACES the marker on the map.
+                //Later in the code, we will use the method below to store a marker into another array
+                //The ONLY thing that this method does is: 1. places the marker on 'map' 2. places it in the position specified in the object.
+                // a question worth considering ( that will be answered below): Why RETURN marker object? It's already been placed...
+                //If you want to DELETE the markers, you NEED to know where they are. We can do this by storing them in an array.
+                function createNewMarker(obj,map){
+                  var marker = new google.maps.Marker({
+                    position: obj.position,
+                    map: map,
+                    icon: obj.icon
+                  });
+                  return marker; // if you never plan on deleting markers, this line is irrelevant
+                }
+                // Ignore the lines below because we haven't finished geo location.
+                var origin_place_id = null; // change to geolocation?
+                var destination_place_id = null;
+
+                // This line sets the default travel mode.
+                var travel_mode = 'WALKING';
+                var map = new google.maps.Map(document.getElementById('map'), {
+                  mapTypeControl: false,
+                  center: {lat: 37.7762801, lng: -122.4327323},
+                  zoom: 13
+                });
+
+                // These are the TWO MAIN CLASSES THAT GOOGLE PROVIDES TO US. THEY DO EVERYTHING. (outside of creating the map)
+                // This object can return an ID for a location.
+                var directionsService = new google.maps.DirectionsService;
+                var directionsDisplay = new google.maps.DirectionsRenderer({draggable:true});
+
+                // if the code below is commented out, then NO map DIRECTIONS will display.
+                // The code below provides the blue line that shows a route from origin to destination
+                directionsDisplay.setMap(map);
+
+                //This code provides the text directions below the document.
+                // only one line is needed to add text directions.
+                directionsDisplay.setPanel(document.getElementById('text-directions'));
+                var origin_input = document.getElementById('origin-input');
+                var destination_input = document.getElementById('destination-input');
+                var modes = document.getElementById('mode-selector');
+                var time_range = document.getElementById('time-range');
+
+                map.controls[google.maps.ControlPosition.TOP_LEFT].push(origin_input);
+                map.controls[google.maps.ControlPosition.TOP_LEFT].push(destination_input);
+                map.controls[google.maps.ControlPosition.TOP_LEFT].push(modes);
+                // map.controls[google.maps.ControlPosition.TOP_LEFT].push(time_range);
+
+                var origin_autocomplete = new google.maps.places.Autocomplete(origin_input);
+                origin_autocomplete.bindTo('bounds', map);
+
+                var destination_autocomplete = new google.maps.places.Autocomplete(destination_input);
+                destination_autocomplete.bindTo('bounds', map);
+
+                // Sets a listener on a radio button to change the filter type on Places
+                // Autocomplete.
+                function setupClickListener(id, mode) {
+                  var radioButton = document.getElementById(id);
+                  radioButton.addEventListener('click', function() {
+                    travel_mode = mode;
+                    route(origin_place_id, destination_place_id, travel_mode,
+                      directionsService, directionsDisplay)
+                    });
+                  }
+                  setupClickListener('changemode-walking', 'WALKING');
+                  setupClickListener('changemode-transit', 'TRANSIT');
+                  setupClickListener('changemode-driving', 'DRIVING');
+
+                  function expandViewportToFitPlace(map, place) {
+                    if (place.geometry.viewport) {
+                      map.fitBounds(place.geometry.viewport);
+                    }
+                    else {
+                      map.setCenter(place.geometry.location);
+                      map.setZoom(17);
+                    }
+                  }
+
+                  origin_autocomplete.addListener('place_changed', function() {
+                    var place = origin_autocomplete.getPlace();
+                    if (!place.geometry) {
+                      window.alert("Autocomplete's returned place contains no geometry");
+                      return;
+                    }
+                    expandViewportToFitPlace(map, place);
+
+                    // If the place has a geometry, store its place ID and route if we have
+                    // the other place ID
+                    origin_place_id = place.place_id;
+                    route(origin_place_id, destination_place_id, travel_mode,
+                      directionsService, directionsDisplay);
+                    });
+
+                    destination_autocomplete.addListener('place_changed', function() {
+                      var place = destination_autocomplete.getPlace();
+                      if (!place.geometry) {
+                        window.alert("Autocomplete's returned place contains no geometry");
+                        return;
+                      }
+                      expandViewportToFitPlace(map, place);
+                      // If the place has a geometry, store its place ID and route if we have
+                      // the other place ID
+                      destination_place_id = place.place_id;
+                      route(origin_place_id, destination_place_id, travel_mode,
+                        directionsService, directionsDisplay);
+                      });
+
+                      function route(origin_place_id, destination_place_id, travel_mode,
+                        directionsService, directionsDisplay) {
+                          if (!origin_place_id || !destination_place_id) {
+                            return;
+                          }
+                          directionsService.route({
+                            origin: {'placeId': origin_place_id},
+                            destination: {'placeId': destination_place_id},
+                            travelMode: travel_mode
+                          }, function(response, status) {
+                            if (status === 'OK') {
+                              directionsDisplay.setDirections(response);
+                            } else {
+                              window.alert('Directions request failed due to ' + status);
+                            }
+                          });
+                        }
+                        var checked_boxes = new Array;
+                        function createCheckedBoxesArray(){
+                          //make the array empty again.
+                          checked_boxes = new Array;
+                          // this is a checkbox with id assault. ".checked" returns a boolean (true or false)
+                          if(document.getElementById('assault').checked) {
+                            //What is the value then? Is it a category like "ASSAULT"? No, because I needed a quick fix.
+                            checked_boxes.push(document.getElementById('assault').value);
+                          }
+                          if(document.getElementById('vandalism').checked) {
+                            checked_boxes.push(document.getElementById('vandalism').value);
+                          }
+                          if(document.getElementById('kidnapping').checked) {
+                            checked_boxes.push(document.getElementById('kidnapping').value);
+                          }
+                          if(document.getElementById('sex_crime').checked) {
+                            checked_boxes.push(document.getElementById('sex_crime').value);
+                          }
+                          if(document.getElementById('vehicle_theft').checked) {
+                            checked_boxes.push(document.getElementById('vehicle_theft').value);
+                          }
+                        }
+
+                        //this code executes the first time we open the page so that a default map displays.
+                        createCheckedBoxesArray();
+
+                        // markers2 is an array of the actual markers
+                        //  these are the default values that display when you first view the page.
+                        var startTime = 18;
+                        var endTime = 19;
+                        // INITIALIZING ARRAYS
+
+                        for (var i =0; i < markers.length;i++){
+                          // only make a new marker if it fits the time specified
+                          markers2.push(createNewMarker(markers[i],null));
+                        }
+
+                        var circles = new Array();
+                        for(var i = 0; i < markers2.length;i++){
+                          circles[i] = new google.maps.Circle({
+                            strokeOpacity: 0,
+                            map: null,
+                            radius: 100,    // meters
+                            fillColor: '#AA0000'
+                          });
+                          circles[i].bindTo('center', markers2[i], 'position');
+                        }
+
+                        // INITIALIZING ARRAYS
+
+                        generateMap();
+
+                        function generateMapAllTimes(){
+                          startTime=0;
+                          endTime=23;
+                          generateMap();
+                        }
+
+                        // IN THIS DOCUMENT, WE ACTUALLY HAVE 3 ARRAYS.
+                        //1. The first array simply holds the marker information. We have one array that has ALL the markers, why not use this to display the markers. We're going to go back to the top.
+                        function generateMap(){
+                          //This for loop simply PLACES the markers, and ALSO stores them in an array.
+                          for (var i =0; i < markers.length;i++){
+                            // There are 2 conditions that need to be satisfied.
+
+                            // Condition #1, does the current marker (that is in the array markers) have an attribute "time" that is between our specified values?
+                            if (markers[i].time <= endTime && markers[i].time >= startTime && $.inArray(markers[i]['icon'], checked_boxes)!=-1){
+                              // We also want to know if it corresponds to a checked box.
+                              //The code below is jquery. $.inArray simply checks if the current marker's icon exists in an array of "approved" or "visible" icons. These icons are stored as links to images.
+                              // we are pushing the marker into an array to delete it later.
+                              //the actual creation of the marker INTO the map occurs within the function createNewMarker. Remember, in Alex's function, createNewMarker does 2 things. It CREATES the marker, and returns information about that marker so we can delete it later.
+                              // markers2.push(createNewMarker(markers[i],map));
+                              markers2[i].setMap(map);
+                              circles[i].setMap(map);
+                            }
+                            else{
+                              markers2[i].setMap(null);
+                              circles[i].setMap(null);
+                            }
+
+                            // Only 1 more thing that needs to be explained. the check boxes.
+
+                          }
+                        }
+
+                        // slider updater
+                        // mouse up means when you release a click.
+                        document.getElementById('time-range').addEventListener('mouseup', function(){
+                          // The first thing we need to do is set a RANGE to display crimes.
+                          //Why do we only have parseInt for this line?
+                          //The reason is because of buggy data given to us. It is a dirty fix.
+                          //There is a problem if you do not parse int. If you set the slider to 12, then adding "1" to "12" gives you "121". I do not know why.
+                          //What is even STRANGER is that if you do "12" minus "1", you get "11" and it works? This was a HUGE problem that was hard to spot.
+                          var time = parseInt(document.getElementById('time-range').value);
+
+                          // For example, if we set the slider to 4(am) then we want to display crimes between 3am and 5am.
+                          startTime = time-1;
+                          endTime = time+1;
+                          // We went over this.
+                          // clearMap();
+                          // We will talk about this RIGHT now.
+                          generateMap();
+                          // route(origin_place_id, destination_place_id, travel_mode,
+                          //   directionsService, directionsDisplay);
+                        });
+                        // The purpose of this function is to reduce code since it repeats.
+                        function addCheckboxListener(id){
+                          document.getElementById(id).addEventListener('change', function(){
+                            //This is obvious, we want a new map.
+                            // clearMap();
+                            // This is something we haven't seen/talked about yet.
+                            createCheckedBoxesArray();
+                            //Updates the map
+                            generateMap();
+                            //updates the blue line route and also the directions.
+                            // route(origin_place_id, destination_place_id, travel_mode,
+                            //   directionsService, directionsDisplay);
+                          });
+                        }
+                        // 6 check boxes that need to UPDATE the map if they are clicked.
+                        addCheckboxListener('assault')
+                        addCheckboxListener('vandalism')
+                        addCheckboxListener('kidnapping')
+                        addCheckboxListener('sex_crime')
+                        addCheckboxListener('vehicle_theft')
+
+                        // The code below changes the boxes that show the RANGE of time we display.
+                        document.getElementById('time-range').addEventListener('change', function(){
+                          document.getElementById('start').value = document.getElementById('time-range').value - 1;
+                          document.getElementById('end').value = parseInt(document.getElementById('time-range').value) +1 ;
+
+                        });
+
+                        document.getElementById('showAllTimes').addEventListener('mouseup', function(){
+                          generateMapAllTimes();
+                        });
+                        var infoWindow = new google.maps.InfoWindow({map: map});
+
+                        // Try HTML5 geolocation.
+                        if (navigator.geolocation) {
+                          navigator.geolocation.getCurrentPosition(function(position) {
+                            var pos = {
+                              lat: position.coords.latitude,
+                              lng: position.coords.longitude
+                            };
+
+                            infoWindow.setPosition(pos);
+                            infoWindow.setContent('Location found.');
+                            map.setCenter(pos);
+                          }, function() {
+                            handleLocationError(true, infoWindow, map.getCenter());
+                          });
+                        } else {
+                          // Browser doesn't support Geolocation
+                          handleLocationError(false, infoWindow, map.getCenter());
+                        }
+                      }
+
+                      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+                        infoWindow.setPosition(pos);
+                        infoWindow.setContent(browserHasGeolocation ?
+                          'Error: The Geolocation service failed.' :
+                          'Error: Your browser doesn\'t support geolocation.');
+                        }
+                        // research https://developers.google.com/maps/documentation/javascript/examples/directions-draggable
+                        </script>
+                        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvaXrCFmQSv5H62kP7fWA2yI0INPPkq5Y&libraries=places&callback=initMap"
+                        async defer></script>
+                        <div id="crime_categories" class="col-lg-8">
+                          <div class="page-header">
+                            <h2>Legend <br><small>Select or deselct to filter map by crime category</small></h2>
+                          </div>
+                          <table class="table table-hover">
+                            <thead>
+                              <tr>
+                                <th>Legend</th>
+                                <th>Assault <span> </span><img src="https://maps.google.com/mapfiles/kml/paddle/1-lv.png"></th>
+                                <th>Vandalism <span> </span><img src="https://maps.google.com/mapfiles/kml/paddle/2-lv.png"></th>
+                                <th>Kidnapping <span> </span><img src="https://maps.google.com/mapfiles/kml/paddle/3-lv.png"></th>
+                                <th>Sex Crime <span> </span><img src="https://maps.google.com/mapfiles/kml/paddle/4-lv.png"></th>
+                                <th>Vehicle Theft <span> </span><img src="https://maps.google.com/mapfiles/kml/paddle/5-lv.png"></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td><strong>Selection</strong></td>
+                                <td><input type="checkbox" id="assault" name="assault" class="form-control" aria-describedby="basic-addon11" value="https://maps.google.com/mapfiles/kml/paddle/1-lv.png" checked></td>
+                                <td><input type="checkbox" id="vandalism" name="vandalism" class="form-control" aria-describedby="basic-addon12" value="https://maps.google.com/mapfiles/kml/paddle/2-lv.png" checked></td>
+                                <td><input type="checkbox" id="kidnapping" name="kidnapping" class="form-control" aria-describedby="basic-addon13" value="https://maps.google.com/mapfiles/kml/paddle/3-lv.png" checked></td>
+                                <td><input type="checkbox" id="sex_crime" name="sex_crime" class="form-control" aria-describedby="basic-addon13" value="https://maps.google.com/mapfiles/kml/paddle/4-lv.png" checked></td>
+                                <td><input type="checkbox" id="vehicle_theft" name="vehicle_theft" class="form-control" aria-describedby="basic-addon13" value="https://maps.google.com/mapfiles/kml/paddle/5-lv.png" checked></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div id="time-range-display" class="col-sm-4">
+                          <div class="page-header">
+                            <h2>Time Range <br><small>Military Time</small></h2>
+                          </div>
+                          <input type="range" name="time-range" id="time-range" min="1" max="22" step="1"> <br>
+                          <input class="col-sm-3" type="text" id="start" name="start" value="0" readonly>
+                          <input class="col-sm-3" type="text" id="end" name="end" value="23" readonly>
+                          <button id="showAllTimes" type="submit" class="btn btn-primary">Show Crime For All Hours</button>
+                          <!-- <button id="showAllTimes">Show Crime For All Hours</button> -->
+                        </div>
+                        <div id="map" class="col-sm-12"></div>
+
+                        <div id="text-directions" class="col-lg-8 col-md-8 col-sm-8"></div>
+                      </body>
+                      </html>
