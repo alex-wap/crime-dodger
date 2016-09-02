@@ -67,8 +67,8 @@
 
         {% for favorite in favorites: %}
         <tr>
-        <td>{{favorite['name']}}</td>
-        <td>{{favorite['location']}}</td>
+        <td><a href="/place/{{favorite.id}}">{{favorite['name']}}</a></td>
+        <td><a href="/place/{{favorite.id}}">{{favorite['location']}}</a></td>
         <td>
         {% if session['id'] == user['id']: %}
         <td><a href="/edit/{{favorite.id}}">Edit</a></td>

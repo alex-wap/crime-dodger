@@ -106,6 +106,9 @@
           <li role="presentation"><a href="/users/<id>"><button type="button" class="btn btn-primary navbar-btn">Profile</button></a></li>
 
         </ul>
+        {% if favorite: %}
+        {{favorite.location}}
+        {% endif %}
       </div>
     </div>
     </nav>
@@ -113,10 +116,10 @@
       <!-- <div class="page-header">
       <h1>CrimeDodger <small>Safe Routes through San Francisco</small></h1>
     </div> -->
-    <input id="origin-input" class="controls" type="text"
+    <input id="origin-input" class="controls" type="text" 
     placeholder="Enter an origin location">
 
-    <input id="destination-input" class="controls" type="text"
+    <input id="destination-input" class="controls" type="text" {% if favorite: %} value="{{favorite.location}}" {% endif %}
     placeholder="Enter a destination location">
 
     <div id="mode-selector" class="controls">
