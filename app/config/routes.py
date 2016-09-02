@@ -36,6 +36,10 @@ routes['/marker'] = 'Crimes#marker'
 routes['/marker2'] = 'Crimes#marker2'
 routes['/directions'] = 'Crimes#directions'
 routes['/directions2'] = 'Crimes#directions2'
+routes['/place/<id>'] = 'Crimes#directions3'
+
+
+routes['/userfavorite/<id>'] = 'Users#userfavorite'
 # routes['/jsondata'] = 'Crimes#createMapData'
 """
     You can add routes and specify their handlers as follows:

@@ -51,8 +51,8 @@
 
         {% for favorite in favorites: %}
         <tr>
-        <td>{{favorite['name']}}</td>
-        <td>{{favorite['location']}}</td>
+        <td><a href="/place/{{favorite.id}}">{{favorite['name']}}</a></td>
+        <td><a href="/place/{{favorite.id}}">{{favorite['location']}}</a></td>
         <td>
         {% if session['id'] == user['id']: %}
         <td><a href="/edit/{{favorite.id}}">Edit</a></td>
@@ -67,7 +67,6 @@
         <br>
       </div>
       {% if session['id'] == user['id']: %}
-      <form id="registration" action='/users/create' method='post'>
 
       <form action="/users/{{user.id}}/add" method="post">
         <div class="page-header col-sm-8 col-med-8 col-lg-8">
