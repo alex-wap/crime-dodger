@@ -30,54 +30,30 @@
       <div class="page-header">
         <h1>Saved Location</h1>
       </div>
-      <div class=" col-sm-2"></div>
-      <div>
-      <table class="table-hover col-sm-8">
-        <thead>
-          <th>Location Name</th>
-          <th>Address</th>
-        </thead>
-        <tbody>
-          <tr>
-          <td>{{favorite['name']}}</td>
-          <td>{{favorite['location']}}</td>
-          </tr>
-        </tbody>
-      </table>
-        <br>
-      </div>
-      <form action="/confirm_edit/{{favorite.id}}" method="post" class="col-sm-10">
-        <div class="page-header">
-          <h3>Edit Location</h3>
-        </div>
-        <div class=" col-sm-3"></div>
-        <div class="input-group col-sm-6">
-          <span class="input-group-addon">Name: </span>
-          <input type="text" class="form-control" placeholder="Never gonna give you up">
-        </div>
-        <div class=" col-sm-3"></div>
-        <div class="input-group col-sm-6">
-          <span class="input-group-addon">Location:</span>
-          <input type="text" class="form-control" placeholder="Never gonna let you down">
-        </div>
-        <button class="btn btn-info" type="submit">Edit Location</button>
-        <!-- <input type="submit" value="Edit location">
-        <label>Location:</label><input type="text" name="location"><br>
-        <label>Name:</label><input type="text" name="name"><br> -->
-      </form>
-      <br>
-      <br>
-    </div>
-    <div class="footer col-sm-4">
-    </div>
-    <div class=" col-sm-1">
-      <a class="btn btn-info " href="/users/{{session['id']}}" role="button"> Back </a>
-    </div>
-    <div class=" col-sm-1">
-      <a class="btn btn-info " href="/" role=button> Home </a>
-    </div>
 
-
-
+<form action='/confirm_edit/{{favorite.id}}' method='post'>
+<div class="form-group row">
+  <label for="name-location" class="col-xs-2 col-form-label">Name</label>
+  <div class="col-xs-10">
+    <input type="text" class="form-control" value="{{favorite['name']}}" name="name" id="name-location">
+  </div>
+</div>
+<div class="form-group row">
+  <label for="location-location" class="col-xs-2 col-form-label">Location</label>
+  <div class="col-xs-10">
+    <input type="text" class="form-control" value="{{favorite['location']}}" name="location" id="location-location">
+  </div>
+</div>
+<div class="form-group row">
+      <div class="offset-sm-2 col-sm-10">
+        <input type="submit" class="btn btn-info" value="Edit Location">
+        </div>
+</div>
+</form>
+<br>
+    <div>
+      <a href="/users/{{session['id']}}"><button class="btn btn-info">Back</button></a>
+      <a href="/"><button class="btn btn-info">Home</button></a>
+    </div>
   </body>
 </html>

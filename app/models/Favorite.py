@@ -20,9 +20,13 @@ class Favorite(Model):
             'name' : form['name'],
             'location' : form['location']
         }
+        if not data['name']:
+            return False
+        if not data['location']:
+            return False
         query = "INSERT INTO favorites (name, user_id, location, created_at,updated_at) VALUES (:name, :user_id, :location, NOW(),NOW())"
         self.db.query_db(query, data)
-        return True ##when we create a record, there is no need to return a value after the method is invoked.
+        return True
 
     def update_favorite(self,data):
         sql = "UPDATE favorites SET name=:name, location=:location, updated_at=NOW() WHERE id = :id"

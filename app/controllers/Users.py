@@ -29,7 +29,6 @@ class Users(Controller):
             return redirect('/login')
         session['id'] = user['id']
         session['name'] = user['name']
-        flash('You have successfully signed in!')
         return redirect('/')
 
     def logout(self):
@@ -42,7 +41,9 @@ class Users(Controller):
         return self.load_view('profile.html',user=user[0],favorites=favorites)
 
     def add(self,id):
-        self.models['Favorite'].create_favorite(id,request.form)
+        valid = self.models['Favorite'].create_favorite(id,request.form)
+        if valid == False:
+            flash('Name and Location cannot be blank!')
         return redirect('/users/{}'.format(id))
 
     def userfavorite(self,id):

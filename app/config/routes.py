@@ -3,7 +3,6 @@ from system.core.router import routes
 routes['default_controller'] = 'Welcome'
 routes['/login'] = 'Users#login'
 routes['/logout'] = 'Users#logout'
-routes['/splash'] = 'Users#splash'
 routes['/users/<id>'] = 'Users#profile'
 routes['/update_favorites/<id>'] = 'Favorites#edit'
 routes['/delete_favorites/<id>'] = 'Favorites#delete'

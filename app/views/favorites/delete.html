@@ -15,9 +15,7 @@
        padding: 1%;
       }
       .container{
-        background: url('/static/css/mocha-grunge-slate.png');
-        background-size: 1440px 800px;
-        background-repeat: repeat;
+        background-color: snow;
         padding: 3%;
         margin: 7%;
         border: 3px solid #ffa64d;
@@ -28,14 +26,14 @@
   <body>
       <div class="container">
         <div class="page-header">
-          <h2>Are you sure you want to delete this favorite? <br><br><small>Name: {{favorite.name}}</small></h2>
+          <h2>Are you sure you want to delete this favorite? <br><br><small>Name: {{favorite.name}}<br>Location: {{favorite.location}}</small></h2>
         </div>
       <!-- <p>
         Name: {{favorite.name}}
       </p> -->
       <div class=" col-sm-4">
-        <a class="btn btn-warning btn-lg" href="/confrim_delete/{{favorite.id}}"role="button"> Yes </a>
-        <a class="btn btn-warning btn-lg" href="/" role=button> No </a>
+        <a class="btn btn-warning btn-lg" href="/confirm_delete/{{favorite.id}}"role="button"> Yes </a>
+        <a class="btn btn-warning btn-lg" href="/users/{{session.id}}" role=button> No </a>
       </div>
     </div>
   </body>

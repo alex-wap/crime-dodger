@@ -26,6 +26,9 @@
   color:  #4080bf;
   text-shadow: 1px 2px #404040;
 }
+table{
+  margin-left: 20px;
+}
 </style>
 </head>
 <body>
@@ -47,14 +50,18 @@
   </nav>
 
   <div class="container">
+
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-danger flash">{{message}}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
     <div class="row">
-    <div class="col-xs-12">
-      <h1>{{user['name']}}'s Saved Locations</h1>
-      </div>
-      </nav>
-      <div class="container-fluid">
-          <div class="page-header col-sm-12 col-md-9 col-lg-9">
-            <h1>{{user['name']}}'s saved locations</h1>
+          <div class="col-sm-12 col-md-9 col-lg-9">
+            <h1>{{user['name']}}'s Saved Locations</h1>
           </div>
       <div>
       <div class="col-sm-1 col-md-3 col-sm-3"></div>
