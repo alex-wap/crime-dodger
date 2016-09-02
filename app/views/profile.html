@@ -12,12 +12,12 @@
          padding: 2%;
 
         }
-      .navbar{
-        background: url('/static/css/mocha-grunge-red-slate.png');
+      .navbar-header{
+        background-color: GhostWhite;
         background-size: 2880px 1620px;
       }
       .container{
-        background: url('/static/css/mocha-grunge-red-slate.png');
+        background-color: GhostWhite;
         background-size: 2880px 1620px;
       }
     </style>
@@ -33,6 +33,7 @@
             </ul>
           </ul>
         </div>
+      </div>
       </nav>
           <div class="page-header col-sm-12 col-md-8 col-lg-8">
             <h1>{{user['name']}}'s saved locations</h1>
@@ -54,7 +55,7 @@
         <td>{{favorite['location']}}</td>
         <td>
         {% if session['id'] == user['id']: %}
-        <td><a href="/edit/{{favorite.id}}">Edit</a></td>        
+        <td><a href="/edit/{{favorite.id}}">Edit</a></td>
         <td><a href="/delete/{{favorite.id}}">Delete</a></td>
 
         {% endif %}
@@ -69,7 +70,7 @@
       <form id="registration" action='/users/create' method='post'>
 
       <form action="/users/{{user.id}}/add" method="post">
-        <div class="page-header col-sm-12 col-med-12 col-lg-12">
+        <div class="page-header col-sm-8 col-med-8 col-lg-8">
           <h2>Add new location</h2>
         </div>
         <div class="input-group col-sm-6 col-lg-6">
