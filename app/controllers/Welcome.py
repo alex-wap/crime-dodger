@@ -8,6 +8,7 @@ class Welcome(Controller):
 
     def index(self):
         return self.load_view('index.html')
+    
 
         """
         A loaded model is accessible through the models attribute
