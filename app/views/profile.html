@@ -55,7 +55,7 @@
           </div>
       <div>
       <div class="col-sm-1 col-md-3 col-sm-3"></div>
-      <table class="table-bordered table-hover col-sm-11 col-md-9 col-lg-9">
+      <table class=" table-hover col-sm-11 col-md-9 col-lg-9">
       <thead>
         <th>Location Name</th>
         <th>Address</th>
@@ -69,7 +69,6 @@
         <tr>
         <td><a href="/place/{{favorite.id}}">{{favorite['name']}}</a></td>
         <td><a href="/place/{{favorite.id}}">{{favorite['location']}}</a></td>
-        <td>
         {% if session['id'] == user['id']: %}
         <td><a href="/edit/{{favorite.id}}">Edit</a></td>
         <td><a href="/delete/{{favorite.id}}">Delete</a></td>

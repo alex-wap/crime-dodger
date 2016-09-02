@@ -18,7 +18,7 @@
     background-size: 2880px 1620px;
   }
   .navbar-header li h1{
-    margin-right: 20%;
+    /*margin-right: 20%;*/
     background-color: GhostWhite;
   }
   .container-fluid{
@@ -96,9 +96,9 @@
   <nav class="navbar navbar-default">
     <div class="container-fluid">
       <div class="navbar-header">
-        <ul class="nav navbar-nav navbar-right nav-pills">
+        <ul class="nav navbar-left nav-pills">
           <li>
-            <a class="navbar-nav navbar-right" href="/"><img alt="site logo" src="/static/img/Logo2small.png"></img></a>
+            <a class="navbar-left " href="/"><img alt="site logo" src="/static/img/Logo2small.png"></img></a>
           </li>
           <li><h1> Safe Routes through San Francisco</h1></li>
           <li role="presentation"><a href="/"><button type="button" class="btn btn-primary navbar-btn">Home</button></a></li>
@@ -116,7 +116,7 @@
       <!-- <div class="page-header">
       <h1>CrimeDodger <small>Safe Routes through San Francisco</small></h1>
     </div> -->
-    <input id="origin-input" class="controls" type="text" 
+    <input id="origin-input" class="controls" type="text"
     placeholder="Enter an origin location">
 
     <input id="destination-input" class="controls" type="text" {% if favorite: %} value="{{favorite.location}}" {% endif %}
