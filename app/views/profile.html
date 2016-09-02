@@ -5,22 +5,20 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <!-- <link rel="stylesheet" href="/static/css/styles.css" type="text/css"> -->
     <style>
-
       body {
          margin: 0;
          background: url('/static/css/mocha-grunge-red-slate.png');
          background-size: 2880px 1620px;
-         background-repeat:no-repeat;
+         padding: 2%;
+
         }
       .navbar{
-           background: url('/static/css/mocha-grunge-red-slate.png');
-           background-size: 2880px 1620px;
-           background-repeat:no-repeat;
+        background: url('/static/css/mocha-grunge-red-slate.png');
+        background-size: 2880px 1620px;
       }
       .container{
-           background: url('/static/css/mocha-grunge-red-slate.png');
-           background-size: 2880px 1620px;
-           background-repeat:no-repeat;
+        background: url('/static/css/mocha-grunge-red-slate.png');
+        background-size: 2880px 1620px;
       }
     </style>
   </head>
@@ -36,11 +34,9 @@
           </ul>
         </div>
       </nav>
-        <div class="well">
           <div class="page-header col-sm-12 col-md-8 col-lg-8">
             <h1>{{user['name']}}'s saved locations</h1>
           </div>
-        </div>
       <div>
       <table class="table col-sm-12 col-md-8 col-lg-8">
       <thead>
@@ -73,7 +69,9 @@
       <form id="registration" action='/users/create' method='post'>
 
       <form action="/users/{{user.id}}/add" method="post">
-        <label>New Location</label>
+        <div class="page-header col-sm-12 col-med-12 col-lg-12">
+          <h2>Add new location</h2>
+        </div>
         <div class="input-group col-sm-6 col-lg-6">
           <span class="input-group-addon" id="basic-addon1">New Location Name:</span>
           <input type="text" name="name" class="form-control" placeholder="Never Gonna Give You Up" aria-describedby="basic-addon1">
