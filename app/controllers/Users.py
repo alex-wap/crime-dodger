@@ -10,11 +10,12 @@ class Users(Controller):
 
     def login(self):
         return self.load_view('registration.html')
-
+    def splash(self):
+        return self.load_view('splash.html')
     def create(self):
         create_status = self.models['User'].create_user(request.form)
         if create_status['status'] == True:
-            session['id'] = create_status['user']['id'] 
+            session['id'] = create_status['user']['id']
             session['name'] = create_status['user']['name']
             return redirect('/')
         else:
