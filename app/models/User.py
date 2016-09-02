@@ -67,6 +67,7 @@ class User(Model):
         user_data = {'email': data['email']}
         # same as query_db() but returns one result
         user = self.db.get_one(user_query, user_data)
+        print user
         if user:
            # check_password_hash() compares encrypted password in DB to one provided by user logging in
             if self.bcrypt.check_password_hash(user.pw_hash, password):

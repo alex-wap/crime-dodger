@@ -53,3 +53,8 @@ class Crimes(Controller):
     def directions2(self):
         crimes=self.models['Crime'].get_crimes()
         return self.load_view('crimes/directions2.html',crimes=crimes)
+
+    def directions3(self,id):
+        crimes=self.models['Crime'].get_crimes()
+        favorite=self.models['Favorite'].get_favorite(id)
+        return self.load_view('crimes/directions2.html',crimes=crimes,favorite=favorite[0])
