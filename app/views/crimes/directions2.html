@@ -89,27 +89,19 @@
   #showAllTimes{
     margin-left: 20px;
   }
-
   </style>
 </head>
 <body>
   <nav class="navbar navbar-default">
     <div class="container-fluid">
-      <div class="navbar-header">
-        <ul class="nav navbar-nav navbar-right nav-pills">
-          <li>
-            <a class="navbar-nav navbar-right" href="/"><img alt="site logo" src="/static/img/Logo2small.png"></img></a>
-          </li>
+    <a class="navbar-nav" href="/"><img class="img-responsive" alt="site logo" src="/static/img/Logo2small.png"></img></a>
+        <ul class="nav navbar-nav">
           <li><h1> Safe Routes through San Francisco</h1></li>
           <li role="presentation"><a href="/"><button type="button" class="btn btn-primary navbar-btn">Home</button></a></li>
           <li role="presentation"><a href="/login"><button type="button" class="btn btn-primary navbar-btn">Login</button></a></li>
           <li role="presentation"><a href="/users/<id>"><button type="button" class="btn btn-primary navbar-btn">Profile</button></a></li>
 
         </ul>
-        {% if favorite: %}
-        {{favorite.location}}
-        {% endif %}
-      </div>
     </div>
     </nav>
     <div class="container">

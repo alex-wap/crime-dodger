@@ -1,61 +1,61 @@
 <html>
-  <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-    <!-- <link rel="stylesheet" href="/static/css/styles.css" type="text/css"> -->
-    <style>
-      body, html {
-         margin: 0;
-         background: url('/static/css/mocha-grunge-red-slate.png');
-         background-size: 2880px 1620px;
-         padding: 1%;
-        }
-        table a{
-          color:  #ffdf80;
-          text-shadow: 1px 1px #19334d ;
-        }
-      .navbar-header{
-        background-color: GhostWhite;
-        background-size: 2880px 1620px;
-      }
-      .container{
-        background-color: GhostWhite;
-        background-size: 2880px 1620px;
-      }
-      .container-fluid{
-        background: url('/static/img/san_fran.png');
-        background-size: 1455px 671px;
-        border: 2px solid #3973ac;
-        margin-top: 25px;
-        padding: 1%;
-      }
-      .page-header{
-        color:  #4080bf;
-        text-shadow: 1px 2px #404040;
-      }
-    </style>
-  </head>
-  <body>
-    <nav class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <ul class="nav navbar-nav navbar-right">
-            <ul class="nav nav-pills">
-              <li role="presentation"><a href="/">Home</a></li>
-              <li role="presentation"><a href="/logout">Logout</a></li>
-            </ul>
-          </ul>
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+  <!-- <link rel="stylesheet" href="/static/css/styles.css" type="text/css"> -->
+  <style>
+    body, html {
+        margin: 0;
+       background: url('/static/img/san_fran.png');
+       background-size: 1985px 915px;
+       padding: 1%;
+   }
+/*   table a{
+    color:  #ffdf80;
+    text-shadow: 1px 1px #19334d ;
+  }*/
+  .navbar-header{
+    background-color: GhostWhite;
+    background-size: 2880px 1620px;
+  }
+  .container{
+    margin-top: 20px;
+   background-color: GhostWhite;
+   border-radius: 10px;
+   background-repeat:no-repeat;
+
+ }
+/* .container-fluid{
+  background-color: GhostWhite;
+  border: 2px solid #3973ac;
+  padding: 1%;
+}*/
+.page-header{
+  color:  #4080bf;
+  text-shadow: 1px 2px #404040;
+}
+</style>
+</head>
+<body>
+  <nav class="navbar navbar-default">
+    <div class="navbar-header">
+      <a class="navbar-nav" href="/"><img class="img-responsive" alt="site logo" src="/static/img/Logo2small.png"></img></a>
+      <form class="navbar-form navbar-right" role="search" action="/">
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary btn-success">Home</button>
         </div>
+      </form>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="row">
+    <div class="col-xs-12">
+      <h1>{{user['name']}}'s Saved Locations</h1>
       </div>
-      </nav>
-      <div class="container-fluid">
-          <div class="page-header col-sm-12 col-md-9 col-lg-9">
-            <h1>{{user['name']}}'s saved locations</h1>
-          </div>
-      <div>
-      <div class="col-sm-1 col-md-3 col-sm-3"></div>
-      <table class="table-bordered table-hover col-sm-11 col-md-9 col-lg-9">
+    </div>
+    <table class="table">
       <thead>
         <th>Location Name</th>
         <th>Address</th>
@@ -67,43 +67,49 @@
 
         {% for favorite in favorites: %}
         <tr>
-        <td><a href="/place/{{favorite.id}}">{{favorite['name']}}</a></td>
-        <td><a href="/place/{{favorite.id}}">{{favorite['location']}}</a></td>
-        <td>
-        {% if session['id'] == user['id']: %}
-        <td><a href="/edit_page/{{favorite.id}}">Edit</a></td>        
-        <td><a href="/delete_page/{{favorite.id}}">Delete</a></td>
+          <td><a href="/place/{{favorite.id}}">{{favorite['name']}}</a></td>
+          <td><a href="/place/{{favorite.id}}">{{favorite['location']}}</a></td>
+          {% if session['id'] == user['id']: %}
+          <td><a href="/edit_page/{{favorite.id}}">Edit</a> <a href="/delete_page/{{favorite.id}}">Delete</a></td>
 
-        {% endif %}
+          {% endif %}
         </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-      </table>
-        <br>
-      </div>
-      {% if session['id'] == user['id']: %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <br>
+</div>
+{% if session['id'] == user['id']: %}
 
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+          <h2>Add Location</h2>
       <form action="/users/{{user.id}}/add" method="post">
-        <div class="col-sm-1 col-md-3 col-sm-3"></div>
-        <div class="page-header col-sm-9 col-med-9 col-lg-9">
-          <h2>Add new location</h2>
+        <div class="form-group row">
+          <label for="name-add" class="col-xs-2 col-form-label">Name</label>
+          <div class="col-xs-10">
+            <input type="text" name="name" class=" form-control" placeholder="Never Gonna Give You Up" id="name-add">
+          </div>
         </div>
-        <div class="input-group col-sm-4 col-lg-4">
-          <span class="input-group-addon" id="basic-addon1">New Location Name:</span>
-          <input type="text" name="name" class="form-control" placeholder="Never Gonna Give You Up" aria-describedby="basic-addon1">
+        <div class="form-group row">
+          <label for="add-add" class="col-xs-2 col-form-label">Address</label>
+          <div class="col-xs-10">
+            <input type="text" name="location" class="form-control" placeholder="Never Gonna Let You Down
+            " id="add-add">
+          </div>
         </div>
-        <div class="input-group col-sm-4 col-lg-4">
-          <span class="input-group-addon" id="basic-addon2">Address:</span>
-          <input type="text" name="location" class=" form-control" placeholder="Never Gonna Let You Down" aria-describedby="basic-addon2">
+        <div class="form-group row">
+          <div class="offset-sm-2 col-sm-10">
+            <input type="submit" class="btn btn-success" value="Add new location">
+          </div>
         </div>
-        <button type="submit" class="btn btn-primary">Add new location</button>
-
-        <!-- <label>Name:</label><input type="text" name="name"><br>
-        <label>Address:</label><input type="text" name="location"><br> -->
-        <!-- <input type="submit" value="Add new location"> -->
       </form>
-      {% endif %}
-      </div>
-  </body>
+    </div>
+  </div>
+  {% endif %}
+</div>
+</div>
+</body>
 </html>

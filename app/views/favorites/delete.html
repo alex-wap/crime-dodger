@@ -9,8 +9,9 @@
     <p>
       Name: {{favorite.name}}
     </p>
-    <a href="/confrim_delete/{{favorite.id}}"><button type="button">Yes</button></a>
-    <a href="/"><button type="button">No</button></a>
+    <p>Location: {{favorite.location}}</p>
+    <a href="/confirm_delete/{{favorite.id}}"><button type="button">Yes</button></a>
+    <a href="/users/{{session['id']}}"><button type="button">No</button></a>
   </body>
 
 </html>
