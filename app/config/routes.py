@@ -35,7 +35,7 @@ routes['/jquery'] = 'Crimes#jquery'
 routes['/marker'] = 'Crimes#marker'
 routes['/marker2'] = 'Crimes#marker2'
 routes['/directions'] = 'Crimes#directions'
-routes['/directions2'] = 'Crimes#directions2'
+routes['/directions2/'] = 'Crimes#directions2'
 routes['/place/<id>'] = 'Crimes#directions3'
 
 
