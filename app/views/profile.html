@@ -11,10 +11,6 @@
        background-size: 1985px 915px;
        padding: 1%;
    }
-/*   table a{
-    color:  #ffdf80;
-    text-shadow: 1px 1px #19334d ;
-  }*/
   .navbar-header{
     background-color: GhostWhite;
     background-size: 2880px 1620px;
@@ -26,11 +22,6 @@
    background-repeat:no-repeat;
 
  }
-/* .container-fluid{
-  background-color: GhostWhite;
-  border: 2px solid #3973ac;
-  padding: 1%;
-}*/
 .page-header{
   color:  #4080bf;
   text-shadow: 1px 2px #404040;
@@ -41,11 +32,17 @@
   <nav class="navbar navbar-default">
     <div class="navbar-header">
       <a class="navbar-nav" href="/"><img class="img-responsive" alt="site logo" src="/static/img/Logo2small.png"></img></a>
-      <form class="navbar-form navbar-right" role="search" action="/">
-        <div class="form-group">
-          <button type="submit" class="btn btn-primary btn-success">Home</button>
-        </div>
-      </form>
+        <ul class="nav navbar-nav">
+          <li role="presentation"><a href="/"><button type="submit" class="btn btn-primary btn-success navbar-btn">Home</button></a></li>
+          {% if session['id'] == user['id']: %}
+          <li role="presentation"><a href="#"><button type="button" class="btn btn-success navbar-btn">Profile</button></a></li>
+          {% else: %}
+          <li role="presentation"><a href="/users/{{session['id']}}"><button type="button" class="btn btn-success navbar-btn">Profile</button></a></li>
+          {% endif %}
+          {% if session: %}
+          <li role="presentation"><a href="/logout"><button type="button" class="btn btn-success navbar-btn">Logout</button></a></li>
+          {% endif %}
+        </ul>
     </div>
   </nav>
 
