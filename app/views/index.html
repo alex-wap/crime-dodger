@@ -98,9 +98,12 @@
         <ul class="nav navbar-nav">
           <li><h1> Safe Routes through San Francisco</h1></li>
           <li role="presentation"><a href="#"><button type="button" class="btn btn-primary navbar-btn">Home</button></a></li>
+          {% if not session: %}
           <li role="presentation"><a href="/login"><button type="button" class="btn btn-primary navbar-btn">Login</button></a></li>
+          {% endif %}
           {% if session: %}
           <li role="presentation"><a href="/users/{{session['id']}}"><button type="button" class="btn btn-primary navbar-btn">Profile</button></a></li>
+          <li role="presentation"><a href="/logout"><button type="button" class="btn btn-primary navbar-btn">Logout</button></a></li>
           {% endif %}
         </ul>
     </div>
