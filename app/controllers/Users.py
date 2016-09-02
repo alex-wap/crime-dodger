@@ -44,3 +44,6 @@ class Users(Controller):
     def add(self,id):
         self.models['Favorite'].create_favorite(id,request.form)
         return redirect('/users/{}'.format(id))
+
+    def delete(self,id):
+        return self.load_view('delete.html', user=user[0], favorites=favorites)

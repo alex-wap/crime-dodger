@@ -22,10 +22,10 @@ class Favorite(Model):
         }
         query = "INSERT INTO favorites (name, user_id, location, created_at,updated_at) VALUES (:name, :user_id, :location, NOW(),NOW())"
         self.db.query_db(query, data)
-        return True
+        return True ##when we create a record, there is no need to return a value after the method is invoked.
 
     def update_favorite(self,data):
-        sql = "UPDATE favorites SET (name=:name, location=:location, updated_at=NOW()) WHERE id = :id"
+        sql = "UPDATE favorites SET name=:name, location=:location, updated_at=NOW() WHERE id = :id"
         self.db.query_db(sql, data)
         return True
     
@@ -33,3 +33,4 @@ class Favorite(Model):
         query = "DELETE FROM favorites WHERE id = :id"
         data = {'id':id}
         return self.db.query_db(query, data)
+
