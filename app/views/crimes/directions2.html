@@ -13,13 +13,20 @@
   html, body {
     height: 100%;
     margin: 0;
-    padding: 0;
+    padding: 1%;
     background: url('/static/css/mocha-grunge-slate.png');
     background-size: 2880px 1620px;
   }
+  .navbar-header li h1{
+    margin-right: 20%;
+    background-color: GhostWhite;
+  }
+  .container-fluid{
+    background-color: GhostWhite;
+  }
   #map {
     height: 70%;
-    margin: 2%;
+    margin-bottom: 3%;
   }
   .page-header{
     margin-top: 30px;
@@ -37,6 +44,7 @@
   .navbar{
     background: url('/static/css/mocha-grunge-slate.png');
     background-size: 2880px 1620px;
+    background-color: GhostWhite;
   }
   /*.container{
   background: url('/static/css/mocha-grunge-slate.png');
@@ -78,6 +86,10 @@
   #time-range{
     margin-left: 20px;
   }
+  #showAllTimes{
+    margin-left: 20px;
+  }
+
   </style>
 </head>
 <body>
@@ -91,10 +103,13 @@
           <li><h1> Safe Routes through San Francisco</h1></li>
           <li role="presentation"><a href="/"><button type="button" class="btn btn-primary navbar-btn">Home</button></a></li>
           <li role="presentation"><a href="/login"><button type="button" class="btn btn-primary navbar-btn">Login</button></a></li>
+          <li role="presentation"><a href="/users/<id>"><button type="button" class="btn btn-primary navbar-btn">Profile</button></a></li>
+
         </ul>
       </div>
+    </div>
     </nav>
-    <div class="container-fluid">
+    <div class="container">
       <!-- <div class="page-header">
       <h1>CrimeDodger <small>Safe Routes through San Francisco</small></h1>
     </div> -->
@@ -115,7 +130,6 @@
       <label for="changemode-driving">Driving</label>
     </div>
   </div>
-  <div id="map"></div>
 
   <script>
   // This example requires the Places library. Include the libraries=places
@@ -432,7 +446,7 @@
                               lat: position.coords.latitude,
                               lng: position.coords.longitude
                             };
-                            
+
                             infoWindow.setPosition(pos);
                             infoWindow.setContent('Location found.');
                             map.setCenter(pos);
@@ -455,58 +469,45 @@
                         </script>
                         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvaXrCFmQSv5H62kP7fWA2yI0INPPkq5Y&libraries=places&callback=initMap"
                         async defer></script>
-                        <div id="crime_categories" class="col-lg-4">
+                        <div id="crime_categories" class="col-lg-8">
                           <div class="page-header">
-                            <h2>Crime Legend <br><small>Select or deselct to filter map by category</small></h2>
+                            <h2>Legend <br><small>Select or deselct to filter map by crime category</small></h2>
                           </div>
                           <table class="table table-hover">
                             <thead>
                               <tr>
-                                <th>Crime Category</th>
-                                <th>Key Image</th>
-                                <th>Select/Deselect</th>
+                                <th>Legend</th>
+                                <th>Assault <span> </span><img src="https://maps.google.com/mapfiles/kml/paddle/1-lv.png"></th>
+                                <th>Vandalism <span> </span><img src="https://maps.google.com/mapfiles/kml/paddle/2-lv.png"></th>
+                                <th>Kidnapping <span> </span><img src="https://maps.google.com/mapfiles/kml/paddle/3-lv.png"></th>
+                                <th>Sex Crime <span> </span><img src="https://maps.google.com/mapfiles/kml/paddle/4-lv.png"></th>
+                                <th>Vehicle Theft <span> </span><img src="https://maps.google.com/mapfiles/kml/paddle/5-lv.png"></th>
                               </tr>
                             </thead>
                             <tbody>
                               <tr>
-                                <td>Assault</td>
-                                <td><img src="https://maps.google.com/mapfiles/kml/paddle/1-lv.png"></td>
+                                <td><strong>Selection</strong></td>
                                 <td><input type="checkbox" id="assault" name="assault" class="form-control" aria-describedby="basic-addon11" value="https://maps.google.com/mapfiles/kml/paddle/1-lv.png" checked></td>
-                              </tr>
-                              <tr>
-                                <td>Vandalism</td>
-                                <td><img src="https://maps.google.com/mapfiles/kml/paddle/2-lv.png"></td>
                                 <td><input type="checkbox" id="vandalism" name="vandalism" class="form-control" aria-describedby="basic-addon12" value="https://maps.google.com/mapfiles/kml/paddle/2-lv.png" checked></td>
-                              </tr>
-                              <tr>
-                                <td>Kidnapping</td>
-                                <td><img src="https://maps.google.com/mapfiles/kml/paddle/3-lv.png"></td>
                                 <td><input type="checkbox" id="kidnapping" name="kidnapping" class="form-control" aria-describedby="basic-addon13" value="https://maps.google.com/mapfiles/kml/paddle/3-lv.png" checked></td>
-                              </tr>
-                              <tr>
-                                <td>Sex Crime</td>
-                                <td><img src="https://maps.google.com/mapfiles/kml/paddle/4-lv.png"></td>
                                 <td><input type="checkbox" id="sex_crime" name="sex_crime" class="form-control" aria-describedby="basic-addon13" value="https://maps.google.com/mapfiles/kml/paddle/4-lv.png" checked></td>
-                              </tr>
-                              <tr>
-                                <td>Vehicle Theft</td>
-                                <td><img src="https://maps.google.com/mapfiles/kml/paddle/5-lv.png"></td>
                                 <td><input type="checkbox" id="vehicle_theft" name="vehicle_theft" class="form-control" aria-describedby="basic-addon13" value="https://maps.google.com/mapfiles/kml/paddle/5-lv.png" checked></td>
                               </tr>
                             </tbody>
                           </table>
                         </div>
-                        <div id="time-range-display" class="col-lg-6">
+                        <div id="time-range-display" class="col-sm-4">
                           <div class="page-header">
                             <h2>Time Range <br><small>Military Time</small></h2>
                           </div>
                           <input type="range" name="time-range" id="time-range" min="1" max="22" step="1"> <br>
-                          <input type="text" id="start" name="start" value="0" readonly>
-                          <input type="text" id="end" name="end" value="23" readonly> <br>
+                          <input class="col-sm-3" type="text" id="start" name="start" value="0" readonly>
+                          <input class="col-sm-3" type="text" id="end" name="end" value="23" readonly>
                           <button id="showAllTimes" type="submit" class="btn btn-primary">Show Crime For All Hours</button>
                           <!-- <button id="showAllTimes">Show Crime For All Hours</button> -->
                         </div>
-                        <div id="text-directions" class="col-lg-8 col-md-8 col-sm-8"></div>
+                        <div id="map" class="col-sm-12"></div>
 
+                        <div id="text-directions" class="col-lg-8 col-md-8 col-sm-8"></div>
                       </body>
                       </html>
