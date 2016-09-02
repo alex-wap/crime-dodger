@@ -20,6 +20,7 @@ routes['default_controller'] = 'Welcome'
 routes['/crimes'] = 'Crimes#index'
 routes['/login'] = 'Users#login'
 routes['/logout'] = 'Users#logout'
+routes['/splash'] = 'Users#splash'
 routes['/users/<id>'] = 'Users#profile'
 routes['/favorites/<id>'] = 'Favorites#edit'
 

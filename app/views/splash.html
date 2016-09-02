@@ -1,68 +1,79 @@
-<!DOCTYPE html>
 <html>
 <head>
-  <title>directions2</title>
-  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+  <!-- <link rel="stylesheet" href="/static/css/styles.css" type="text/css"> -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-    }
-    #map {
-      height: 70%;
-    }
-    .controls {
-      margin-top: 10px;
-      border: 1px solid transparent;
-      border-radius: 2px 0 0 2px;
-      box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      height: 32px;
-      outline: none;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-    }
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  #map {
+    height: 70%;
+  }
+  .controls {
+    margin-top: 10px;
+    border: 1px solid transparent;
+    border-radius: 2px 0 0 2px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    height: 32px;
+    outline: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  }
 
-    #origin-input,
-    #destination-input {
-      background-color: #fff;
-      font-family: Roboto;
-      font-size: 15px;
-      font-weight: 300;
-      margin-left: 12px;
-      padding: 0 11px 0 13px;
-      text-overflow: ellipsis;
-      width: 200px;
-    }
+  #origin-input,
+  #destination-input {
+    background-color: #fff;
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 300;
+    margin-left: 12px;
+    padding: 0 11px 0 13px;
+    text-overflow: ellipsis;
+    width: 200px;
+  }
 
-    #origin-input:focus,
-    #destination-input:focus {
-      border-color: #4d90fe;
-    }
+  #origin-input:focus,
+  #destination-input:focus {
+    border-color: #4d90fe;
+  }
 
-    #mode-selector {
-      color: #fff;
-      background-color: #4d90fe;
-      margin-left: 12px;
-      padding: 5px 11px 0px 11px;
-    }
+  #mode-selector {
+    color: #fff;
+    background-color: #4d90fe;
+    margin-left: 12px;
+    padding: 5px 11px 0px 11px;
+  }
 
-    #mode-selector label {
-      font-family: Roboto;
-      font-size: 13px;
-      font-weight: 300;
-    }
-    #text-directions{
-      width: 100%;
-    }
-    #time-range{
-      margin-left: 20px;
-    }
+  #mode-selector label {
+    font-family: Roboto;
+    font-size: 13px;
+    font-weight: 300;
+  }
+  #text-directions{
+    width: 100%;
+  }
+  #time-range{
+    margin-left: 20px;
+  }
   </style>
 </head>
-<body>
+<body><nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <ul class="nav navbar-nav navbar-right">
+        <ul class="nav nav-pills">
+          <li role="presentation"><a href="/">Home</a></li>
+          <li role="presentation"><a href="/logout">Logout</a></li>
+        </ul>
+      </ul>
+    </div>
+  </nav>
+
   <input id="origin-input" class="controls" type="text"
   placeholder="Enter an origin location">
 
@@ -79,9 +90,7 @@
     <input type="radio" name="type" id="changemode-driving">
     <label for="changemode-driving">Driving</label>
   </div>
-
   <div id="map"></div>
-
   <script>
       // This example requires the Places library. Include the libraries=places
       // parameter when you first load the API. For example:
@@ -520,9 +529,14 @@
         //What is even STRANGER is that if you do "12" minus "1", you get "11" and it works? This was a HUGE problem that was hard to spot.
         var time = parseInt(document.getElementById('time-range').value);
 
+
+
         // For example, if we set the slider to 4(am) then we want to display crimes between 3am and 5am.
         startTime = time-1;
         endTime = time+1;
+
+
+
 
         // We went over this.
         // clearMap();
@@ -531,9 +545,15 @@
         // We will talk about this RIGHT now.
         generateMap();
 
+
+
+
         // route(origin_place_id, destination_place_id, travel_mode,
         //   directionsService, directionsDisplay);
       });
+
+
+
       // The purpose of this function is to reduce code since it repeats.
       function addCheckboxListener(id){
         document.getElementById(id).addEventListener('change', function(){
@@ -546,6 +566,10 @@
           // This is something we haven't seen/talked about yet.
           createCheckedBoxesArray();
 
+
+
+
+
           //Updates the map
           generateMap();
 
@@ -556,12 +580,19 @@
         });
       }
 
+
+
+
       // 6 check boxes that need to UPDATE the map if they are clicked.
       addCheckboxListener('assault')
       addCheckboxListener('vandalism')
       addCheckboxListener('kidnapping')
       addCheckboxListener('sex_crime')
       addCheckboxListener('vehicle_theft')
+
+
+
+
 
 
       // The code below changes the boxes that show the RANGE of time we display.
@@ -576,25 +607,33 @@
       });
     }
 
+
+
+
+
+
+
+
       // research https://developers.google.com/maps/documentation/javascript/examples/directions-draggable
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvaXrCFmQSv5H62kP7fWA2yI0INPPkq5Y&libraries=places&callback=initMap"
-    async defer></script>
-    <div id="crime_categories">
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvaXrCFmQSv5H62kP7fWA2yI0INPPkq5Y&libraries=places&callback=initMap"
+  async defer></script>
 
-      <span>Assault</span><img src="https://maps.google.com/mapfiles/kml/paddle/1-lv.png"><input  id="assault" type="checkbox" name="assault" value="https://maps.google.com/mapfiles/kml/paddle/1-lv.png" checked><br>
-      <span>Vandalism</span><img src="https://maps.google.com/mapfiles/kml/paddle/2-lv.png"><input  id="vandalism" type="checkbox" name="vandalism" value="https://maps.google.com/mapfiles/kml/paddle/2-lv.png" checked><br>
-      <span>Kidnapping</span><img src="https://maps.google.com/mapfiles/kml/paddle/3-lv.png"><input  id="kidnapping" type="checkbox" name="kidnapping" value="https://maps.google.com/mapfiles/kml/paddle/3-lv.png" checked><br>
-      <span>Sex Crime</span><img src="https://maps.google.com/mapfiles/kml/paddle/4-lv.png"><input  id="sex_crime" type="checkbox" name="sex_crime" value="https://maps.google.com/mapfiles/kml/paddle/4-lv.png" checked><br>
-      <span>Vehicle Theft</span><img src="https://maps.google.com/mapfiles/kml/paddle/5-lv.png"><input  id="vehicle_theft" type="checkbox" name="vehicle_theft" value="https://maps.google.com/mapfiles/kml/paddle/5-lv.png" checked><br>
-    </div>
-    <div id="time-range-display">
-      <p>Time range (Military Time)</p>
-      <input type="range" name="time-range" id="time-range" min="1" max="22" step="1"> <br>
-      <input type="text" id="start" name="start" value="0" readonly>
-      <input type="text" id="end" name="end" value="23" readonly> <br>
-      <button id="showAllTimes">Show Crime For All Hours</button>
-    </div>
-    <div id="text-directions"></div>
-  </body>
-  </html>
+  <div id="crime_categories">
+    <span>Assault</span><img src="https://maps.google.com/mapfiles/kml/paddle/1-lv.png"><input  id="assault" type="checkbox" name="assault" value="https://maps.google.com/mapfiles/kml/paddle/1-lv.png" checked><br>
+    <span>Vandalism</span><img src="https://maps.google.com/mapfiles/kml/paddle/2-lv.png"><input  id="vandalism" type="checkbox" name="vandalism" value="https://maps.google.com/mapfiles/kml/paddle/2-lv.png" checked><br>
+    <span>Kidnapping</span><img src="https://maps.google.com/mapfiles/kml/paddle/3-lv.png"><input  id="kidnapping" type="checkbox" name="kidnapping" value="https://maps.google.com/mapfiles/kml/paddle/3-lv.png" checked><br>
+    <span>Sex Crime</span><img src="https://maps.google.com/mapfiles/kml/paddle/4-lv.png"><input  id="sex_crime" type="checkbox" name="sex_crime" value="https://maps.google.com/mapfiles/kml/paddle/4-lv.png" checked><br>
+    <span>Vehicle Theft</span><img src="https://maps.google.com/mapfiles/kml/paddle/5-lv.png"><input  id="vehicle_theft" type="checkbox" name="vehicle_theft" value="https://maps.google.com/mapfiles/kml/paddle/5-lv.png" checked><br>
+  </div>
+  <div id="time-range-display">
+    <p>Time range (Military Time)</p>
+    <input type="range" name="time-range" id="time-range" min="1" max="22" step="1"> <br>
+    <input type="text" id="start" name="start" value="0" readonly>
+    <input type="text" id="end" name="end" value="23" readonly> <br>
+    <button id="showAllTimes">Show Crime For All Hours</button>
+  </div>
+  <div id="text-directions"></div>
+
+</body>
+</html>
