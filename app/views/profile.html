@@ -18,18 +18,19 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Crime Dodger</a>
+      <a class="navbar-brand" href="/">Crime Dodger</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
         <li><a href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
         {% if not session: %}
           <li><a href="/login">Login</a></li>
           {% endif %}
           {% if session: %}
-          <li class="active"><a href="/users/{{session['id']}}">Profile</a></li>
+          <li class="active"><a href="#">Profile</a></li>
           <li><a href="/logout">Logout</a></li>
           {% endif %}
       </ul>
@@ -46,14 +47,14 @@
 
     <div class="row">
       <div class="col-sm-12">
-            <h2>{{user['name']}}'s Saved Locations</h2>
+            <h2>{{user['name']}}'s Saved Locations</h2><br>
       <table class="table table-striped">
       <thead>
         <th>Location Name</th>
         <th>Address</th>
         {% if session['id'] == user['id']: %}
-        <th>Edit</th>
-        <th>Delete</th>
+        <th>Edit Location</th>
+        <th>Remove</th>
         {% endif %}
       </thead>
       <tbody>
@@ -63,8 +64,8 @@
         <td><a href="/place/{{favorite.id}}">{{favorite['name']}}</a></td>
         <td><a href="/place/{{favorite.id}}">{{favorite['location']}}</a></td>
         {% if session['id'] == user['id']: %}
-        <td><a href="/edit_page/{{favorite.id}}">Edit</a></td>        
-        <td><a href="/delete_page/{{favorite.id}}">Delete</a></td>
+        <td><a href="/favorites/{{favorite.id}}/edit">Edit</a></td>        
+        <td><a href="/favorites/{{favorite.id}}">Delete</a></td>
 
           {% endif %}
         </td>
@@ -79,7 +80,7 @@
 <div class="col-sm-12">
   <hr>
   <h2>Add Location</h2><br>
-  <form action="/users/{{user.id}}/add" method="post">
+  <form action="/favorites/{{user.id}}/add" method="post">
     <div class="form-group row">
       <label for="name-add" class="col-xs-1 col-form-label">Name</label>
       <div class="col-xs-11">

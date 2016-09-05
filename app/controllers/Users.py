@@ -40,12 +40,6 @@ class Users(Controller):
         favorites=self.models['Favorite'].get_favorites(id)
         return self.load_view('profile.html',user=user[0],favorites=favorites)
 
-    def add(self,id):
-        valid = self.models['Favorite'].create_favorite(id,request.form)
-        if valid == False:
-            flash('Name and Location cannot be blank!')
-        return redirect('/users/{}'.format(id))
-
     def userfavorite(self,id):
         user=self.models['User'].get_user(id)
         favorites=self.models['Favorite'].get_favorites(id)

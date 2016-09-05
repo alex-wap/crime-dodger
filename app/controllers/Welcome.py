@@ -10,3 +10,6 @@ class Welcome(Controller):
     def index(self):
         crimes=self.models['Crime'].get_crimes()
         return self.load_view('index.html',crimes=crimes)
+
+    def about(self):
+        return self.load_view('about.html')

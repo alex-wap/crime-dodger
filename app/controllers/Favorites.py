@@ -8,21 +8,26 @@ class Favorites(Controller):
         self.load_model('User')
         self.db = self._app.db
 
-    def edit_page(self,id):
+    def add(self,id):
+        valid = self.models['Favorite'].create_favorite(id,request.form)
+        if valid == False:
+            flash('Name and Location cannot be blank!')
+        return redirect('/users/{}'.format(id))
+
+    def edit(self,id):
       favorite=self.models['Favorite'].get_favorite(id)
       return self.load_view('/favorites/edit.html',favorite=favorite[0])
 
-    def delete_page(self,id):
+    def delete(self,id):
       favorite=self.models['Favorite'].get_favorite(id)
       return self.load_view('/favorites/delete.html',favorite=favorite[0])
 
-    def confirm_delete(self,id):
+    def destroy(self,id):
       favorite=self.models['Favorite'].delete_favorite(id)
       # return self.load_view('/profile.html', user=user[0])
       return redirect('/users/{}'.format(session['id']))
 
-
-    def confirm_edit(self,id):
+    def show(self,id):
     	print id
     	data ={'id': id,'name': request.form['name'], 'location': request.form['location']}
     	favorite=self.models['Favorite'].update_favorite(data)
