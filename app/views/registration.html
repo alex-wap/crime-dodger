@@ -7,41 +7,42 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
   <!-- <link rel="stylesheet" href="/static/css/styles.css" type="text/css"> -->
   <style>
-    body {
-       margin: 0;
-       background: url('/static/img/san_fran.png');
-       background-size: 1985px 915px;
-       padding: 1%;
-      }
-
-    .container{
-         background-color: GhostWhite;
-         border-radius: 10px;
-         background-size: 1985px 915px;
-         background-repeat:no-repeat;
-    }
     .flash{
       margin-top: 10px;
-    }
-    label{
-    }
-    h1{
     }
   </style>
 </head>
 <body>
-  <nav class="navbar navbar-default">
-      <div class="navbar-header">
-      <a class="navbar-nav" href="/"><img class="img-responsive" alt="site logo" src="/static/img/Logo2small.png"></img></a>
-        <form class="navbar-form navbar-right" role="search" action="/">
-          <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-success">Home</button>
-          </div>
-        </form>
-      </div>
-  </nav>
-      <div class="container">
+<div class="container">
 
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">Crime Dodger</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/">Home</a></li>
+        {% if not session: %}
+          <li class="active"><a href="#">Login</a></li>
+          {% endif %}
+          {% if session: %}
+          <li><a href="/users/{{session['id']}}">Profile</a></li>
+          <li><a href="/logout">Logout</a></li>
+          {% endif %}
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
       {% with messages = get_flashed_messages() %}
         {% if messages %}
           {% for message in messages %}
@@ -50,9 +51,7 @@
         {% endif %}
       {% endwith %}
 
-      <div>
-        <h1>Register</h1>
-      </div>
+        <h2>Register</h2><br>
   <form action='/users/create' method='post'>
       <div class="form-group row">
   <label for="name-field" class="col-xs-2 col-form-label">Name</label>
@@ -81,14 +80,12 @@
   </div>
   <div class="form-group row">
       <div class="offset-sm-2 col-sm-10">
-        <input type="submit" class="btn btn-success" value="Register">
+        <input type="submit" class="btn btn-default" value="Register">
       </div>
   </div>
   </form>
   <hr>
-  <div>
-    <h1>Login</h1>
-  </div>
+    <h2>Login</h2><br>
   <form action='/users/login' method='post'>
 <div class="form-group row">
   <label for="email-login" class="col-xs-2 col-form-label">Email</label>
@@ -105,7 +102,7 @@
 </div>
 <div class="form-group row">
       <div class="offset-sm-2 col-sm-10">
-        <input type="submit" class="btn btn-success" value="Login">
+        <input type="submit" class="btn btn-default" value="Login">
         </div>
         </div>
   </form>

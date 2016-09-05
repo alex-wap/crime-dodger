@@ -1,56 +1,41 @@
 <html>
 <head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
   <!-- <link rel="stylesheet" href="/static/css/styles.css" type="text/css"> -->
-  <style>
-    body, html {
-        margin: 0;
-       background: url('/static/img/san_fran.png');
-       background-size: 1985px 915px;
-       padding: 1%;
-   }
-  .navbar-header{
-    background-color: GhostWhite;
-    background-size: 2880px 1620px;
-  }
-  .container{
-    margin-top: 20px;
-   background-color: GhostWhite;
-   border-radius: 10px;
-   background-repeat:no-repeat;
-
- }
-.page-header{
-  color:  #4080bf;
-  text-shadow: 1px 2px #404040;
-}
-table{
-  margin-left: 20px;
-}
-</style>
 </head>
 <body>
-  <nav class="navbar navbar-default">
+<div class="container">
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-      <a class="navbar-nav" href="/"><img class="img-responsive" alt="site logo" src="/static/img/Logo2small.png"></img></a>
-        <ul class="nav navbar-nav">
-          <li role="presentation"><a href="/"><button type="submit" class="btn btn-primary btn-success navbar-btn">Home</button></a></li>
-          {% if session['id'] == user['id']: %}
-          <li role="presentation"><a href="#"><button type="button" class="btn btn-success navbar-btn">Profile</button></a></li>
-          {% else: %}
-          <li role="presentation"><a href="/users/{{session['id']}}"><button type="button" class="btn btn-success navbar-btn">Profile</button></a></li>
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Crime Dodger</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/">Home</a></li>
+        {% if not session: %}
+          <li><a href="/login">Login</a></li>
           {% endif %}
           {% if session: %}
-          <li role="presentation"><a href="/logout"><button type="button" class="btn btn-success navbar-btn">Logout</button></a></li>
+          <li class="active"><a href="/users/{{session['id']}}">Profile</a></li>
+          <li><a href="/logout">Logout</a></li>
           {% endif %}
-        </ul>
-    </div>
-  </nav>
-
-  <div class="container">
-
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
       {% with messages = get_flashed_messages() %}
         {% if messages %}
           {% for message in messages %}
@@ -60,17 +45,15 @@ table{
       {% endwith %}
 
     <div class="row">
-          <div class="col-sm-12 col-md-9 col-lg-9">
-            <h1>{{user['name']}}'s Saved Locations</h1>
-          </div>
-      <div>
-      <div class="col-sm-1 col-md-3 col-sm-3"></div>
-      <table class=" table-hover col-sm-11 col-md-9 col-lg-9">
+      <div class="col-sm-12">
+            <h2>{{user['name']}}'s Saved Locations</h2>
+      <table class="table table-striped">
       <thead>
         <th>Location Name</th>
         <th>Address</th>
         {% if session['id'] == user['id']: %}
-        <th>Action</th>
+        <th>Edit</th>
+        <th>Delete</th>
         {% endif %}
       </thead>
       <tbody>
@@ -89,36 +72,30 @@ table{
       {% endfor %}
     </tbody>
   </table>
-  <br>
 </div>
-{% if session['id'] == user['id']: %}
 
-<div class="container">
-  <div class="row">
-    <div class="col-xs-12">
-          <h2>Add Location</h2>
-      <form action="/users/{{user.id}}/add" method="post">
-        <div class="form-group row">
-          <label for="name-add" class="col-xs-2 col-form-label">Name</label>
-          <div class="col-xs-10">
-            <input type="text" name="name" class=" form-control" placeholder="Never Gonna Give You Up" id="name-add">
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="add-add" class="col-xs-2 col-form-label">Address</label>
-          <div class="col-xs-10">
-            <input type="text" name="location" class="form-control" placeholder="Never Gonna Let You Down
-            " id="add-add">
-          </div>
-        </div>
-        <div class="form-group row">
-          <div class="offset-sm-2 col-sm-10">
-            <input type="submit" class="btn btn-success" value="Add new location">
-          </div>
-        </div>
-      </form>
+<br>
+{% if session['id'] == user['id']: %}
+<div class="col-sm-12">
+  <hr>
+  <h2>Add Location</h2><br>
+  <form action="/users/{{user.id}}/add" method="post">
+    <div class="form-group row">
+      <label for="name-add" class="col-xs-1 col-form-label">Name</label>
+      <div class="col-xs-11">
+        <input class="form-control" name="name" type="text" placeholder="Never Gonna Give You Up" id="name-add">
+      </div>
     </div>
-  </div>
+    <div class="form-group row">
+      <label for="add-add" class="col-xs-1 col-form-label">Address</label>
+      <div class="col-xs-11">
+        <input class="form-control" name="location" type="text" placeholder="Never Gonna Let You Down" id="add-add">
+      </div>
+    </div>
+    <br>
+    <input type="submit" class="btn btn-default" value="Add Location">
+  </form>
+</div>
   {% endif %}
 </div>
 </div>

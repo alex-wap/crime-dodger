@@ -4,6 +4,7 @@
   <title>Crime Dodger</title>
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
   <meta charset="utf-8">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
@@ -14,22 +15,10 @@
     height: 100%;
     margin: 0;
     padding: 1%;
-    background: url('/static/css/mocha-grunge-slate.png');
-    background-size: 2880px 1620px;
-  }
-  .navbar-header li h1{
-    margin-right: 20%;
-    background-color: GhostWhite;
-  }
-  .container-fluid{
-    background-color: GhostWhite;
   }
   #map {
-    height: 70%;
+    height: 550px;
     margin-bottom: 3%;
-  }
-  .page-header{
-    margin-top: 30px;
   }
   .controls {
     margin-top: 10px;
@@ -41,16 +30,6 @@
     outline: none;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
   }
-  .navbar{
-    background: url('/static/css/mocha-grunge-slate.png');
-    background-size: 2880px 1620px;
-    background-color: GhostWhite;
-  }
-  /*.container{
-  background: url('/static/css/mocha-grunge-slate.png');
-  background-size: 2880px 1620px;
-  background-repeat:no-repeat;
-  }*/
   #origin-input,
   #destination-input {
     background-color: #fff;
@@ -83,35 +62,52 @@
   #text-directions{
     width: 100%;
   }
-  #time-range{
-    margin-left: 20px;
-  }
-  #showAllTimes{
-    margin-left: 20px;
+
+  #checkboxes{
+    margin-left: 21px;
   }
   </style>
 </head>
 <body>
-  <nav class="navbar navbar-default">
-    <div class="container-fluid">
-    <a class="navbar-nav" href="#"><img class="img-responsive" alt="site logo" src="/static/img/Logo2small.png"></img></a>
-        <ul class="nav navbar-nav">
-          <li><h1> Safe Routes through San Francisco</h1></li>
-          <li role="presentation"><a href="#"><button type="button" class="btn btn-primary navbar-btn">Home</button></a></li>
-          {% if not session: %}
-          <li role="presentation"><a href="/login"><button type="button" class="btn btn-primary navbar-btn">Login</button></a></li>
+<div class="container">
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Crime Dodger</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+        <li class="active"><a href="#">Home</a></li>
+        <li><a href="/about">About</a></li>
+        {% if not session: %}
+          <li><a href="/login">Login</a></li>
           {% endif %}
           {% if session: %}
-          <li role="presentation"><a href="/users/{{session['id']}}"><button type="button" class="btn btn-primary navbar-btn">Profile</button></a></li>
-          <li role="presentation"><a href="/logout"><button type="button" class="btn btn-primary navbar-btn">Logout</button></a></li>
+          <li><a href="/users/{{session['id']}}">Profile</a></li>
+          <li><a href="/logout">Logout</a></li>
           {% endif %}
-        </ul>
-    </div>
-    </nav>
-    <div class="container">
-      <!-- <div class="page-header">
-      <h1>CrimeDodger <small>Safe Routes through San Francisco</small></h1>
-    </div> -->
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+{% if not session: %}
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-3">Welcome to Crime Dodger!</h1>
+    <p class="lead">Create an account to travel safely through San Francisco! Check out the About page for more info.</p>
+  </div>
+</div>
+{% endif %}
+
     <input id="origin-input" class="controls" type="text" 
     placeholder="Enter an origin location">
 
@@ -128,12 +124,8 @@
       <input type="radio" name="type" id="changemode-driving">
       <label for="changemode-driving">Driving</label>
     </div>
-  </div>
 
   <script>
-  // This example requires the Places library. Include the libraries=places
-  // parameter when you first load the API. For example:
-  // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 
   function initMap() {
     var icon = {
@@ -464,49 +456,48 @@
                           'Error: The Geolocation service failed.' :
                           'Error: Your browser doesn\'t support geolocation.');
                         }
-                        // research https://developers.google.com/maps/documentation/javascript/examples/directions-draggable
-                        </script>
-                        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvaXrCFmQSv5H62kP7fWA2yI0INPPkq5Y&libraries=places&callback=initMap"
-                        async defer></script>
-                        <div id="crime_categories" class="col-lg-8">
-                          <div class="page-header">
-                            <h2>Legend <br><small>Select or deselct to filter map by crime category</small></h2>
-                          </div>
-                          <table class="table table-hover">
-                            <thead>
-                              <tr>
-                                <th>Legend</th>
-                                <th>Assault <span> </span><img src="https://maps.google.com/mapfiles/kml/paddle/1-lv.png"></th>
-                                <th>Vandalism <span> </span><img src="https://maps.google.com/mapfiles/kml/paddle/2-lv.png"></th>
-                                <th>Kidnapping <span> </span><img src="https://maps.google.com/mapfiles/kml/paddle/3-lv.png"></th>
-                                <th>Sex Crime <span> </span><img src="https://maps.google.com/mapfiles/kml/paddle/4-lv.png"></th>
-                                <th>Vehicle Theft <span> </span><img src="https://maps.google.com/mapfiles/kml/paddle/5-lv.png"></th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td><strong>Selection</strong></td>
-                                <td><input type="checkbox" id="assault" name="assault" class="form-control" aria-describedby="basic-addon11" value="https://maps.google.com/mapfiles/kml/paddle/1-lv.png" checked></td>
-                                <td><input type="checkbox" id="vandalism" name="vandalism" class="form-control" aria-describedby="basic-addon12" value="https://maps.google.com/mapfiles/kml/paddle/2-lv.png" checked></td>
-                                <td><input type="checkbox" id="kidnapping" name="kidnapping" class="form-control" aria-describedby="basic-addon13" value="https://maps.google.com/mapfiles/kml/paddle/3-lv.png" checked></td>
-                                <td><input type="checkbox" id="sex_crime" name="sex_crime" class="form-control" aria-describedby="basic-addon13" value="https://maps.google.com/mapfiles/kml/paddle/4-lv.png" checked></td>
-                                <td><input type="checkbox" id="vehicle_theft" name="vehicle_theft" class="form-control" aria-describedby="basic-addon13" value="https://maps.google.com/mapfiles/kml/paddle/5-lv.png" checked></td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                        <div id="time-range-display" class="col-sm-4">
-                          <div class="page-header">
-                            <h2>Time Range <br><small>Military Time</small></h2>
-                          </div>
-                          <input type="range" name="time-range" id="time-range" min="1" max="22" step="1"> <br>
-                          <input class="col-sm-3" type="text" id="start" name="start" value="0" readonly>
-                          <input class="col-sm-3" type="text" id="end" name="end" value="23" readonly>
-                          <button id="showAllTimes" type="submit" class="btn btn-primary">Show Crime For All Hours</button>
-                          <!-- <button id="showAllTimes">Show Crime For All Hours</button> -->
-                        </div>
-                        <div id="map" class="col-sm-12"></div>
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvaXrCFmQSv5H62kP7fWA2yI0INPPkq5Y&libraries=places&callback=initMap"
+  async defer></script>
 
-                        <div id="text-directions" class="col-lg-8 col-md-8 col-sm-8"></div>
-                      </body>
-                      </html>
+  <div class="row">
+    <div id="crime_categories" class="col-sm-2">
+        <h3>Crimes</h3>
+        <div id="checkboxes">
+        <label class="checkbox">
+          <input type="checkbox" id="assault" name="assault" value="https://maps.google.com/mapfiles/kml/paddle/1-lv.png" checked> <img src="https://maps.google.com/mapfiles/kml/paddle/1-lv.png"> Assault
+        </label>
+        <label class="checkbox">
+          <input type="checkbox" id="vandalism" name="vandalism" value="https://maps.google.com/mapfiles/kml/paddle/2-lv.png" checked> <img src="https://maps.google.com/mapfiles/kml/paddle/2-lv.png"> Vandalism
+        </label>
+        <label class="checkbox">
+          <input type="checkbox" id="kidnapping" name="kidnapping" value="https://maps.google.com/mapfiles/kml/paddle/3-lv.png" checked> <img src="https://maps.google.com/mapfiles/kml/paddle/3-lv.png"> Kidnapping
+        </label>
+        <label class="checkbox">
+          <input type="checkbox" id="sex_crime" name="sex_crime" value="https://maps.google.com/mapfiles/kml/paddle/4-lv.png" checked> <img src="https://maps.google.com/mapfiles/kml/paddle/4-lv.png"> Sex Crime
+        </label>
+        <label class="checkbox">
+          <input type="checkbox" id="vehicle_theft" name="vehicle_theft" value="https://maps.google.com/mapfiles/kml/paddle/5-lv.png" checked> <img src="https://maps.google.com/mapfiles/kml/paddle/5-lv.png"> Vehicle Theft
+        </label>
+        </div>
+    </div>
+    <div id="time-range-display" class="col-sm-10">
+        <h3 class="text-center">Time of Day</h3>
+        <br>
+      <input type="range" name="time-range" id="time-range" min="1" max="22" step="1"> <br><br>
+      <form class="form-inline text-center">
+      <input class="form-control" type="text" id="start" name="start" value="0" readonly>
+      <input class="form-control" type="text" id="end" name="end" value="23" readonly>
+      <button id="showAllTimes" type="button" class="btn btn-default">Show Crime For All Hours</button>
+      </form>
+    </div>
+  </div>
+
+
+<div id="map" class="col-sm-12"></div>
+
+<div id="text-directions" class="col-lg-8 col-md-8 col-sm-8"></div>
+
+</div> <!-- end of container -->
+</body>
+</html>
