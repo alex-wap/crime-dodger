@@ -476,9 +476,9 @@
         </div>
     </div>
     <div id="time-range-display" class="col-sm-10">
-        <h3 class="text-center">Time of Day</h3>
-        <label for="range">Time Selection: </label> <label id="timeval"></label>
-      <input type="range" name="time-range" id="time-range" min="1" max="22" step="1" oninput="document.getElementById('timeval').innerHTML = this.value;"> <br><br>
+        <h3 class="text-center">Time of Day (24 Hour Format)</h3>
+        <label for="range">Time Selection: </label> <label id="timeval">18</label><label>:00</label>
+      <input type="range" name="time-range" id="time-range" min="1" max="22" step="1" value="18" oninput="document.getElementById('timeval').innerHTML = this.value;"> <br><br>
       <form class="form-inline text-center">
       <label>Start:&nbsp;</label><input class="form-control" type="text" id="start" name="start" value="Starting Hour" readonly>
       <label>End:&nbsp;</label><input class="form-control" type="text" id="end" name="end" value="Ending Hour" readonly>
