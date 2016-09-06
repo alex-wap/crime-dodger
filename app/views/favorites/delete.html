@@ -7,35 +7,48 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <!-- <link rel="stylesheet" href="/static/css/styles.css" type="text/css"> -->
-    <style>
-    body, html {
-       margin: 0;
-       background: url('/static/css/mocha-grunge-slate.png');
-       background-size: 2880px 1620px;
-       padding: 1%;
-      }
-      .container{
-        background-color: snow;
-        padding: 3%;
-        margin: 7%;
-        border: 3px solid #ffa64d;
-      }
-
-    </style>
   </head>
   <body>
-      <div class="container">
-        <div class="page-header">
-          <h2>Are you sure you want to delete this favorite? <br><br><small>Name: {{favorite.name}}<br>Location: {{favorite.location}}</small></h2>
-        </div>
-      <!-- <p>
-        Name: {{favorite.name}}
-      </p> -->
-      <div class=" col-sm-4">
-        <a class="btn btn-warning btn-lg" href="/favorites/{{favorite.id}}/destroy"role="button"> Yes </a>
-        <a class="btn btn-warning btn-lg" href="/users/{{session.id}}" role=button> No </a>
-      </div>
+  <div class="container">
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">Crime Dodger</a>
     </div>
-  </body>
 
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
+        {% if not session: %}
+          <li><a href="/login">Login</a></li>
+          {% endif %}
+          {% if session: %}
+          <li><a href="/users/{{session['id']}}">Profile</a></li>
+          <li><a href="/logout">Logout</a></li>
+          {% endif %}
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+<div class="panel panel-danger">
+  <div class="panel-heading"><h3>Are you sure you want to delete this location?</h3></div>
+  <div class="panel-body">
+        <h4>Name: {{favorite.name}}<br><br>
+        Location: {{favorite.location}}</h4><br>
+        <a class="btn btn-danger btn-lg" href="/favorites/{{favorite.id}}/destroy"role="button">Delete</a>
+        <a class="btn btn-default btn-lg" href="/users/{{session.id}}" role=button> Back</a>
+  </div>
+</div> <!-- end of panel -->
+</div> <!-- end of container -->
+</body>
 </html>

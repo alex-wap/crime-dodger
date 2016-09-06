@@ -1,59 +1,69 @@
 <html>
   <head>
-    <link rel="stylesheet" href="/static/css/styles.css" type="text/css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!--     <link rel="stylesheet" href="/static/css/styles.css" type="text/css"> -->    
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <!-- <link rel="stylesheet" href="/static/css/styles.css" type="text/css"> -->
-    <style>
-      body, html {
-         margin: 3%;
-         background: url('/static/css/mocha-grunge-red-slate.png');
-         background-size: 2880px 1620px;
-        }
-        .container{
-          background-color: Snow;
-          border: 3px solid #0099cc;
-          margin-bottom: 5%;
-        }
-        .btn{
-          margin: 5px;
-        }
-        /*table{
-          background-color: GhostWhite;
-          border: 1px solid Azure;
-        }*/
-    </style>
   </head>
   <body>
-    <div class="container">
-      <div class="page-header">
-        <h1>Saved Location</h1>
-      </div>
-
-<form action='/favorites/{{favorite.id}}/show' method='post'>
-<div class="form-group row">
-  <label for="name-location" class="col-xs-2 col-form-label">Name</label>
-  <div class="col-xs-10">
-    <input type="text" class="form-control" value="{{favorite['name']}}" name="name" id="name-location">
-  </div>
-</div>
-<div class="form-group row">
-  <label for="location-location" class="col-xs-2 col-form-label">Location</label>
-  <div class="col-xs-10">
-    <input type="text" class="form-control" value="{{favorite['location']}}" name="location" id="location-location">
-  </div>
-</div>
-<div class="form-group row">
-      <div class="offset-sm-2 col-sm-10">
-        <input type="submit" class="btn btn-info" value="Edit Location">
-        </div>
-</div>
-</form>
-<br>
-    <div>
-      <a href="/users/{{session['id']}}"><button class="btn btn-info">Back</button></a>
-      <a href="/"><button class="btn btn-info">Home</button></a>
+  <div class="container">
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">Crime Dodger</a>
     </div>
-  </body>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
+        {% if not session: %}
+          <li><a href="/login">Login</a></li>
+          {% endif %}
+          {% if session: %}
+          <li><a href="/users/{{session['id']}}">Profile</a></li>
+          <li><a href="/logout">Logout</a></li>
+          {% endif %}
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+<div class="panel panel-default">
+  <div class="panel-heading"><h2>{{session['name']}}'s Saved Location</h2></div>
+  <div class="panel-body">
+    <form action='/favorites/{{favorite.id}}/show' method='post'>
+    <div class="form-group row">
+      <label for="name-location" class="col-xs-1 col-form-label">Name</label>
+      <div class="col-xs-11">
+        <input type="text" class="form-control" value="{{favorite['name']}}" name="name" id="name-location">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="location-location" class="col-xs-1 col-form-label">Location</label>
+      <div class="col-xs-11">
+        <input type="text" class="form-control" value="{{favorite['location']}}" name="location" id="location-location">
+      </div>
+    </div>
+    <br>
+    <div class="form-group row">
+          <div class="offset-sm-2 col-sm-10">
+            <input type="submit" class="btn btn-primary btn-lg" value="Edit Location">
+            <a href="/users/{{session['id']}}">
+            <button class="btn btn-default btn-lg">Back</button></a>
+          </div>
+    </div>
+    </form>
+  </div>
+</div> <!-- end of panel -->
+</div> <!-- end of container -->
+</body>
 </html>
