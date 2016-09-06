@@ -9,7 +9,6 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
   <!-- <link rel="stylesheet" href="/static/css/styles.css" type="text/css"> -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <style>
   #map {
     height: 550px;
@@ -478,16 +477,15 @@
     </div>
     <div id="time-range-display" class="col-sm-10">
         <h3 class="text-center">Time of Day</h3>
-        <br>
-      <input type="range" name="time-range" id="time-range" min="1" max="22" step="1"> <br><br>
+        <label for="range">Time Selection: </label> <label id="timeval"></label>
+      <input type="range" name="time-range" id="time-range" min="1" max="22" step="1" oninput="document.getElementById('timeval').innerHTML = this.value;"> <br><br>
       <form class="form-inline text-center">
-      <input class="form-control" type="text" id="start" name="start" value="Starting Hour" readonly>
-      <input class="form-control" type="text" id="end" name="end" value="Ending Hour" readonly>
+      <label>Start:&nbsp;</label><input class="form-control" type="text" id="start" name="start" value="Starting Hour" readonly>
+      <label>End:&nbsp;</label><input class="form-control" type="text" id="end" name="end" value="Ending Hour" readonly>
       <button id="showAllTimes" type="button" class="btn btn-primary">Show Crime For All Hours</button>
       </form>
     </div>
   </div>
-
 
 <div id="map" class="col-sm-12"></div>
 
