@@ -1,5 +1,9 @@
-# Crime Dodger
+# [Crime Dodger](http://54.167.106.29/)
 
-Crime Dodger helps users travel safely through the city of San Francisco. This app maps the crime in San Francisco using Socrata Open Data and Google Maps JavaScript API.
+Crime Dodger is a team project that utilized Data.gov information and Google Maps API to map crime throughout the city of San Francisco and generate directions. 
 
-This is a group project by Alex, Brandon, Elliot, and John using the Pylot framework and Twitter Bootstrap. 
+
+Technology used: 
+
+
+JavaScript, Python, HTML, CSS, Bootstrap, MVC, AWS EC2, GitHub, Socrata Open Data, and Google Maps JavaScript API
