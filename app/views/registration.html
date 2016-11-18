@@ -33,10 +33,10 @@
       <ul class="nav navbar-nav navbar-right">
         <li><a href="/">Home</a></li>
         <li><a href="/about">About</a></li>
-        {% if not session: %}
+        {% if not session['id']: %}
           <li class="active"><a href="#">Login</a></li>
           {% endif %}
-          {% if session: %}
+          {% if session['id']: %}
           <li><a href="/users/{{session['id']}}">Profile</a></li>
           <li><a href="/logout">Logout</a></li>
           {% endif %}
