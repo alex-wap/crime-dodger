@@ -2,69 +2,14 @@
 <html>
 <head>
   <title>Crime Dodger</title>
+  <link rel="shortcut icon" href="./../static/img/favicon.ico">
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
   <meta charset="utf-8">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-  <!-- <link rel="stylesheet" href="/static/css/styles.css" type="text/css"> -->
-  <style>
-  #map {
-    height: 550px;
-    margin-bottom: 3%;
-  }
-  .controls {
-    margin-top: 10px;
-    border: 1px solid transparent;
-    border-radius: 2px 0 0 2px;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    height: 32px;
-    outline: none;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-  }
-  #origin-input,
-  #destination-input {
-    background-color: #fff;
-    font-family: Roboto;
-    font-size: 15px;
-    font-weight: 300;
-    margin-left: 12px;
-    padding: 0 11px 0 13px;
-    text-overflow: ellipsis;
-    width: 200px;
-  }
-
-  #origin-input:focus,
-  #destination-input:focus {
-    border-color: #4d90fe;
-  }
-
-  #mode-selector {
-    color: #fff;
-    background-color: #4d90fe;
-    margin-left: 12px;
-    padding: 5px 11px 0px 11px;
-  }
-
-  #mode-selector label {
-    font-family: Roboto;
-    font-size: 13px;
-    font-weight: 300;
-  }
-  #text-directions{
-    width: 100%;
-  }
-
-  #checkboxes{
-    margin-left: 21px;
-  }
-  #mode-selector{
-    background-color: white;
-    color:black;
-  }
-  </style>
+  <link rel="stylesheet" href="./../static/css/styles.css" type="text/css">
 </head>
 <body>
 <div class="container">
